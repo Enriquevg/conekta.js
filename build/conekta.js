@@ -128,10 +128,14 @@
     _helpers: {
       x_domain_post: function(params) {
         var dataType, type;
-        dataType = 'JSONP';
-        type = 'GET';
-        params.url = params.jsonp_url || params.url;
-        params.data.auth_token = conekta.getPublishableToken();
+        type = 'POST';
+        dataType = 'JSON';
+        if (navigator.userAgent.match(/MSIE [67]+/)) {
+          dataType = 'JSONP';
+          type = 'GET';
+          params.url = params.jsonp_url || params.url;
+          params.data.auth_token = conekta.getPublishableToken();
+        }
         return jQuery.ajax({
           url: 'https://paymentsapi-dev.herokuapp.com/' + params.url + '.json',
           type: type,
