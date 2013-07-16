@@ -3,11 +3,13 @@ publishable_token = null
 window.conekta = 
   _helpers:
     x_domain_post:(params)->
-      type = 'POST'
-      dataType = 'JSON'
-      if navigator.userAgent.match(/MSIE [67]+/)
-        dataType = 'JSONP'
-        type = 'GET'
+      #type = 'POST'
+      #dataType = 'JSON'
+      #if navigator.userAgent.match(/MSIE [67]+/)
+      dataType = 'JSONP'
+      type = 'GET'
+      params.url = params.jsonp_url || params.url
+      params.data.auth_token = conekta.getPublishableToken()
 
       jQuery.ajax(
         url: 'https://paymentsapi-dev.herokuapp.com/' + params.url + '.json'

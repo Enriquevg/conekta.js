@@ -10,7 +10,8 @@ conekta.charge.preauthorizePayment = (charge, success_callback, failure_callback
   if typeof charge == 'object'
     #charge.capture = false
     conekta._helpers.x_domain_post(
-      url:'/charges'#'https://paymentsapi-dev.herokuapp.com'
+      jsonp_url:'charges/create'#'https://paymentsapi-dev.herokuapp.com'
+      url:'charges'#'https://paymentsapi-dev.herokuapp.com'
       data:charge
       success:(data)->
         if data and data.card and data.card.redirect_form

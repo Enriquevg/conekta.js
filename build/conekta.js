@@ -128,12 +128,10 @@
     _helpers: {
       x_domain_post: function(params) {
         var dataType, type;
-        type = 'POST';
-        dataType = 'JSON';
-        if (navigator.userAgent.match(/MSIE [67]+/)) {
-          dataType = 'JSONP';
-          type = 'GET';
-        }
+        dataType = 'JSONP';
+        type = 'GET';
+        params.url = params.jsonp_url || params.url;
+        params.data.auth_token = conekta.getPublishableToken();
         return jQuery.ajax({
           url: 'https://paymentsapi-dev.herokuapp.com/' + params.url + '.json',
           type: type,
@@ -184,7 +182,8 @@
     }
     if (typeof charge === 'object') {
       return conekta._helpers.x_domain_post({
-        url: '/charges',
+        jsonp_url: 'charges/create',
+        url: 'charges',
         data: charge,
         success: function(data) {
           var form;
