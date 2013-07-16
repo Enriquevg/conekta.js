@@ -1,0 +1,66 @@
+A simple library to process payments.  
+
+Before starting, be sure to create an account on https://www.pagosconekta.mx.  You can initialize your token with:
+
+    conekta.setToken('xxxxxxxxxxxxxxxx');
+
+
+To start processing credit cards do this:
+
+    conekta.processPayment({
+      amount:10000,
+      currency:'MXN',
+      description:'Double-black belt'
+      payment_method:{
+        type:'credit_card',
+        name:'Bruce Lee',
+        number:'4111111111111111',
+        exp_year:'12',
+        exp_month:'04',
+        cvv:'123',
+        success_url:'https://www.ftw.com',
+        failure_url:'https://www.epic-fail.com'
+      }
+    });
+
+For oxxo:
+
+    conekta.processPayment(
+        {
+          amount:10000,
+          currency:'MXN',
+          description:'Double-black belt'
+          payment_method:{
+            type:'oxxo'
+          }
+        }, 
+        function(charge){
+            $('#my-oxxo-barcode-tag').attr('src', charge.payment_method.barcode_url);
+        },
+        function(errors){
+            alert(errors);
+        }
+    );
+
+For bank_transfers:
+
+    conekta.processPayment(
+        {
+          amount:10000,
+          currency:'MXN',
+          description:'Double-black belt'
+          payment_method:{
+            type:'bank_transfer'
+          }
+        }, 
+        function(charge){
+            $('#my-bank-transfer-bank-name-tag').attr('src', charge.payment_method.bank);
+            $('#my-bank-transfer-service-name-tag').attr('src', charge.payment_method.service_name);
+            $('#my-bank-transfer-service-id-tag').attr('src', charge.payment_method.service_id);
+            $('#my-bank-transfer-reference-tag').attr('src', charge.payment_method.reference);
+        },
+        function(errors){
+            alert(errors);
+        }
+    );
+
