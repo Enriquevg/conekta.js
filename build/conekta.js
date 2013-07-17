@@ -129,15 +129,17 @@
         var dataType, type;
         type = 'POST';
         dataType = 'JSON';
-        if (navigator.userAgent.match(/MSIE [67]+/)) {
+        if (navigator.userAgent.match(/MSIE [6789]+/)) {
           dataType = 'JSONP';
           type = 'GET';
           params.url = params.jsonp_url || params.url;
           params.data.auth_token = conekta.getPublishableToken();
+        } else {
+          params.url = params.url + '.json';
         }
         params.data._js = true;
         return jQuery.ajax({
-          url: 'https://paymentsapi-dev.herokuapp.com/' + params.url + '.json',
+          url: 'https://paymentsapi-dev.herokuapp.com/' + params.url,
           type: type,
           dataType: dataType,
           data: params.data,
