@@ -189,7 +189,7 @@
 (function() {
   conekta.charge = {};
 
-  conekta.charge.preauthorizePayment = function(charge, success_callback, failure_callback) {
+  conekta.charge["new"] = function(charge, success_callback, failure_callback) {
     if (typeof success_callback !== 'function') {
       success_callback = conekta._helpers.log;
     }

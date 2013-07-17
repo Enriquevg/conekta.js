@@ -1,6 +1,6 @@
 conekta.charge = {}
 
-conekta.charge.preauthorizePayment = (charge, success_callback, failure_callback)->
+conekta.charge.new = (charge, success_callback, failure_callback)->
   if typeof success_callback != 'function'
     success_callback = conekta._helpers.log
 
