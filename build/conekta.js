@@ -91,7 +91,6 @@
                 options.url = first_part + 'destroy/' + last_part;
               }
             }
-            options.url = options.url.replace(/paymentsapi-dev\.herokuapp\.com\//, 'paymentsapi-dev.herokuapp.com/v1/');
             if (options['headers']['Authorization']) {
               if (options.url.match(/\?/)) {
                 options.url = options.url + '&auth_token=' + options['headers']['Authorization'].replace(/Token token\=\"/, '').replace(/"/, '');
@@ -136,6 +135,7 @@
           params.url = params.jsonp_url || params.url;
           params.data.auth_token = conekta.getPublishableToken();
         }
+        params.data._js = true;
         return jQuery.ajax({
           url: 'https://paymentsapi-dev.herokuapp.com/' + params.url + '.json',
           type: type,
@@ -145,10 +145,20 @@
             'Authorization': 'Token token="' + conekta.getPublishableToken() + '"'
           },
           success: function(data, textStatus, jqXHR) {
-            return params.success(data);
+            if (!data || (data.type && data.message)) {
+              return params.error(data || {
+                type: 'api_error',
+                message: "Something went wrong on Conekta's end"
+              });
+            } else {
+              return params.success(data);
+            }
           },
-          error: function(jqXHR, textStatus, errorThrown) {
-            return params.error(JSON.parse(jqXHR.responseText || "{}"));
+          error: function() {
+            return params.error({
+              type: 'api_error',
+              message: 'Something went wrong, possibly a connectivity issue'
+            });
           }
         });
       },
@@ -194,9 +204,9 @@
           if (data && data.card && data.card.redirect_form) {
             form = jQuery("<form></form>");
             form.attr("style", "display:none;");
-            form.attr("action", data.redirect_form.url);
-            form.attr("method", data.redirect_form.action);
-            jQuery.each(data.redirect_form.attributes, function(value, key) {
+            form.attr("action", data.card.redirect_form.url);
+            form.attr("method", data.card.redirect_form.action);
+            jQuery.each(data.card.redirect_form.attributes, function(key, value) {
               return form.append(jQuery("<input/>").attr("type", "hidden").attr("name", key).val(value));
             });
             jQuery("body").append(form);

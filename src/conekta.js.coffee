@@ -11,20 +11,30 @@ window.conekta =
         params.url = params.jsonp_url || params.url
         params.data.auth_token = conekta.getPublishableToken()
 
+      params.data._js = true
       jQuery.ajax(
         url: 'https://paymentsapi-dev.herokuapp.com/' + params.url + '.json'
-        type:type
-        dataType:dataType
-        data:params.data
+        type: type
+        dataType: dataType
+        data: params.data
         headers:
-          'Authorization':('Token token="' + conekta.getPublishableToken() + '"')
-        success:(data, textStatus, jqXHR)->
-          params.success(data)
-        error:(jqXHR, textStatus, errorThrown)->
-          params.error(JSON.parse(jqXHR.responseText || "{}"))
+          'Authorization': ('Token token="' + conekta.getPublishableToken() + '"')
+        success: (data, textStatus, jqXHR)->
+          if ! data or (data.type and data.message)
+            params.error(data || {
+              type:'api_error',
+              message:"Something went wrong on Conekta's end"
+            })
+          else
+            params.success(data)
+        error:()->
+          params.error({
+            type:'api_error',
+            message:'Something went wrong, possibly a connectivity issue'
+          })
       )
 
-    log:(data)->
+    log: (data)->
       if console and console.log
         console.log(data)
 

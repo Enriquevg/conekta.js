@@ -17,9 +17,9 @@ conekta.charge.preauthorizePayment = (charge, success_callback, failure_callback
         if data and data.card and data.card.redirect_form
           form = jQuery("<form></form>")
           form.attr "style", "display:none;"
-          form.attr "action", data.redirect_form.url
-          form.attr "method", data.redirect_form.action
-          jQuery.each data.redirect_form.attributes, (value, key) ->
+          form.attr "action", data.card.redirect_form.url
+          form.attr "method", data.card.redirect_form.action
+          jQuery.each data.card.redirect_form.attributes, (key, value) ->
             form.append jQuery("<input/>").attr("type", "hidden").attr("name", key).val(value)
 
           jQuery("body").append form
