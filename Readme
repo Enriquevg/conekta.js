@@ -2,55 +2,59 @@ A simple library to process payments.
 
 Before starting, be sure to create an account on https://www.pagosconekta.mx.  You can initialize your token with:
 
-    conekta.setToken('xxxxxxxxxxxxxxxx');
+    conekta.setPublishableToken('xxxxxxxxxxxxxxxx');
 
 
 To start processing credit cards do this:
 
-    conekta.processPayment({
+    conekta.charge.new({
       amount:10000,
       currency:'MXN',
       description:'Double-black belt'
-      payment_method:{
-        type:'credit_card',
+      card:{
         name:'Bruce Lee',
         number:'4111111111111111',
         exp_year:'12',
         exp_month:'04',
         cvv:'123',
-        success_url:'https://www.ftw.com',
-        failure_url:'https://www.epic-fail.com'
       }
-    });
+    },
+    function(charge){
+      alert('Success!');
+    },
+    function(response){
+      alert('Fail!');
+    }
+    );
 
 For oxxo:
 
-    conekta.processPayment(
+    conekta.charge.new(
         {
           amount:10000,
           currency:'MXN',
           description:'Double-black belt'
-          payment_method:{
+          cash:{
             type:'oxxo'
           }
         }, 
         function(charge){
             $('#my-oxxo-barcode-tag').attr('src', charge.payment_method.barcode_url);
         },
-        function(errors){
-            alert(errors);
+        function(error){
+            alert('Fail!');
         }
     );
 
 For bank_transfers:
 
-    conekta.processPayment(
+    conekta.charge.new(
         {
           amount:10000,
           currency:'MXN',
           description:'Double-black belt'
-          payment_method:{
-            type:'bank_transfer'
+          bank:{
+            type:'banorte'
           }
         }, 
         function(charge){
@@ -59,8 +63,8 @@ For bank_transfers:
             $('#my-bank-transfer-service-id-tag').attr('src', charge.payment_method.service_id);
             $('#my-bank-transfer-reference-tag').attr('src', charge.payment_method.reference);
         },
-        function(errors){
-            alert(errors);
+        function(error){
+            alert('Fail!');
         }
     );
 
