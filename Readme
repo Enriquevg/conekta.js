@@ -1,6 +1,6 @@
-A simple library to process payments.  
+A simple library to process payments.
 
-Before starting, be sure to create an account on https://www.pagosconekta.mx.  You can initialize your token with:
+Before starting, be sure to create an account on developer-admin.herokuapp.com.  To get started, include jQuery (a recent version of 1.x is recommended as it supports old IE http://code.jquery.com/jquery-1.10.2.js).  You can initialize your token with:
 
     conekta.setPublishableToken('xxxxxxxxxxxxxxxx');
 

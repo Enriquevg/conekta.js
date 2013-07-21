@@ -28,7 +28,7 @@
 
   publishable_token = null;
 
-  window.conekta = {
+  window.Conekta = {
     _helpers: {
       x_domain_post: function(params) {
         var dataType, type;
@@ -38,7 +38,7 @@
           dataType = 'JSONP';
           type = 'GET';
           params.url = params.jsonp_url || params.url;
-          params.data.auth_token = conekta.getPublishableToken();
+          params.data.auth_token = Conekta.getPublishableToken();
         } else {
           params.url = params.url + '.json';
         }
@@ -49,7 +49,7 @@
           dataType: dataType,
           data: params.data,
           headers: {
-            'Authorization': 'Token token="' + conekta.getPublishableToken() + '"'
+            'Authorization': 'Token token="' + Conekta.getPublishableToken() + '"'
           },
           success: function(data, textStatus, jqXHR) {
             if (!data || (data.type && data.message)) {
@@ -77,32 +77,32 @@
     }
   };
 
-  conekta.setPublishableToken = function(token) {
+  Conekta.setPublishableToken = function(token) {
     if (typeof token === 'string' && token.match(/^[a-zA-Z0-9]*$/) && token.length >= 20 && token.length < 30) {
       publishable_token = token;
     } else {
-      conekta._helpers.log('Unusable public token: ' + token);
+      Conekta._helpers.log('Unusable public token: ' + token);
     }
   };
 
-  conekta.getPublishableToken = function() {
+  Conekta.getPublishableToken = function() {
     return publishable_token;
   };
 
 }).call(this);
 
 (function() {
-  conekta.charge = {};
+  Conekta.charge = {};
 
-  conekta.charge["new"] = function(charge, success_callback, failure_callback) {
+  Conekta.charge["new"] = function(charge, success_callback, failure_callback) {
     if (typeof success_callback !== 'function') {
-      success_callback = conekta._helpers.log;
+      success_callback = Conekta._helpers.log;
     }
     if (typeof failure_callback !== 'function') {
-      failure_callback = conekta._helpers.log;
+      failure_callback = Conekta._helpers.log;
     }
     if (typeof charge === 'object') {
-      return conekta._helpers.x_domain_post({
+      return Conekta._helpers.x_domain_post({
         jsonp_url: 'charges/create',
         url: 'charges',
         data: charge,
@@ -141,40 +141,6 @@
               }
             });
             return socket.postMessage(JSON.stringify(data.card.redirect_form));
-            /*
-            if jQuery('div#conekta_iframe_wrapper').length == 0 
-              jQuery('body').append('<div id="conekta_iframe_wrapper" style="position: absolute; left: 50%;top:50%;opacity:0;filter: alpha(opacity = 0.0); filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0.0);"><div style="width:376px;height:400px;position: relative; left: -188px;margin-top:-200px;overflow-x:hidden" id="conekta_iframe_float"><iframe name="conekta_3_d_secure" style="height:550px;border:none;overflow-y: hidden;overflow-x: hidden;width:676px;position:relative;left:-255px;margin-top:-150px;" scrolling="no"></iframe></div></div>')
-            
-            form = jQuery("<form target='conekta_3_d_secure'></form>")
-            form.attr "style", "display:none;"
-            form.attr "action", "https://paymentsapi-dev.herokuapp.com/success.html"#data.card.redirect_form.url
-            form.attr "method", "GET"#data.card.redirect_form.action
-            jQuery.each data.card.redirect_form.attributes, (key, value) ->
-              form.append jQuery("<input/>").attr("type", "hidden").attr("name", key).val(value)
-            
-            jQuery("body").append form
-            form.submit()
-            form.remove()
-            setTimeout(
-              ()->
-                jQuery('div#conekta_iframe_wrapper').fadeTo(1000, 100)
-              , 2000
-            )
-            socket = new easyXDM.Socket(
-              swf:"https://s3.amazonaws.com/conekta_api/flash/easyxdm.swf"
-              remote: "https://paymentsapi-dev.herokuapp.com/success.html"#charges/banorte_3d_secure_response"
-              #container:"conekta_3_d_secure"
-              onMessage:(message, origin)->
-                parsed_message = JSON.parse(message)
-                if parsed_message.type and parsed_message.message
-                  failure_callback(message)
-                else
-                  success_callback(message)
-                socket.destroy()
-                $('#conekta_iframe_wrapper').remove()
-            )
-            */
-
           } else {
             return success_callback(data);
           }
@@ -289,9 +255,9 @@
     return null;
   };
 
-  conekta.card = {};
+  Conekta.card = {};
 
-  conekta.card.getBrand = function(number) {
+  Conekta.card.getBrand = function(number) {
     var brand;
     if (typeof number === 'string') {
       number = number.replace(/[ -]/g, '');
@@ -305,7 +271,7 @@
     return null;
   };
 
-  conekta.card.validateCVC = function(cvc) {
+  Conekta.card.validateCVC = function(cvc) {
     if ((typeof cvc === 'number' && cvc >= 0 && cvc < 10000) || (typeof cvc === 'string' && cvc.match(/^[\d]{3,4}$/))) {
       return true;
     } else {
@@ -313,7 +279,7 @@
     }
   };
 
-  conekta.card.validateExpiry = function(month, year) {
+  Conekta.card.validateExpiry = function(month, year) {
     if (typeof month === 'string' && month.match(/^[\d]{1,2}$/)) {
       month = parseInt(month);
     }
@@ -330,7 +296,7 @@
     }
   };
 
-  conekta.card.validateNumber = function(number) {
+  Conekta.card.validateNumber = function(number) {
     var card_type, length_valid, luhn_valid;
     if (typeof number === 'string') {
       number = number.replace(/[ -]/g, '');

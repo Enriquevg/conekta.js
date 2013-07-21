@@ -76,9 +76,9 @@ get_card_type = (number) ->
 
   null
 
-conekta.card = {}
+Conekta.card = {}
 
-conekta.card.getBrand = (number)->
+Conekta.card.getBrand = (number)->
   if typeof number == 'string'
     number = number.replace /[ -]/g, ''
   else if typeof number == 'number'
@@ -91,13 +91,13 @@ conekta.card.getBrand = (number)->
 
   null
 
-conekta.card.validateCVC = (cvc)->
+Conekta.card.validateCVC = (cvc)->
   if (typeof cvc == 'number' and cvc >=0 and cvc < 10000) or (typeof cvc == 'string' and cvc.match(/^[\d]{3,4}$/))
     true
   else
     false
 
-conekta.card.validateExpiry = (month, year)->
+Conekta.card.validateExpiry = (month, year)->
   if typeof month == 'string' and month.match(/^[\d]{1,2}$/)
     month = parseInt(month)
 
@@ -111,7 +111,7 @@ conekta.card.validateExpiry = (month, year)->
   else
     false
 
-conekta.card.validateNumber = (number) ->
+Conekta.card.validateNumber = (number) ->
   if typeof number == 'string'
     number = number.replace /[ -]/g, ''
   else if type number == 'number'

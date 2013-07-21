@@ -1,16 +1,16 @@
 
-conekta.charge = {}
+Conekta.charge = {}
 
-conekta.charge.new = (charge, success_callback, failure_callback)->
+Conekta.charge.new = (charge, success_callback, failure_callback)->
   if typeof success_callback != 'function'
-    success_callback = conekta._helpers.log
+    success_callback = Conekta._helpers.log
 
   if typeof failure_callback != 'function'
-    failure_callback = conekta._helpers.log
+    failure_callback = Conekta._helpers.log
 
   if typeof charge == 'object'
     #charge.capture = false
-    conekta._helpers.x_domain_post(
+    Conekta._helpers.x_domain_post(
       jsonp_url:'charges/create'#'https://paymentsapi-dev.herokuapp.com'
       url:'charges'#'https://paymentsapi-dev.herokuapp.com'
       data:charge
