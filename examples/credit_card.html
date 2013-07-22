@@ -38,7 +38,7 @@
         // Disable the submit button to prevent repeated clicks
         $form.find('button').prop('disabled', true);
 
-        Conekta.charge.new($('#payment-form'), conektaSuccessResponseHandler, conektaErrorResponseHandler);
+        Conekta.charge.create($('#payment-form'), conektaSuccessResponseHandler, conektaErrorResponseHandler);
 
         // Prevent the form from submitting with the default action
         return false;

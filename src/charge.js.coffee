@@ -24,7 +24,7 @@ parse_form = ($form)->
 
 Conekta.charge = {}
 
-Conekta.charge.new = (charge, success_callback, failure_callback)->
+Conekta.charge.create = (charge, success_callback, failure_callback)->
   if typeof success_callback != 'function'
     success_callback = Conekta._helpers.log
 

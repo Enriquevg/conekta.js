@@ -121,7 +121,7 @@
 
   Conekta.charge = {};
 
-  Conekta.charge["new"] = function(charge, success_callback, failure_callback) {
+  Conekta.charge.create = function(charge, success_callback, failure_callback) {
     if (typeof success_callback !== 'function') {
       success_callback = Conekta._helpers.log;
     }
