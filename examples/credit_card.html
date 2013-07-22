@@ -13,24 +13,25 @@
   <script type="text/javascript">
     Conekta.setPublishableToken('YOUR_PUBLISHABLE_KEY');
 
+    var conektaSuccessResponseHandler = function(response) {
+      var $form = $('#payment-form');
+
+      var charge_id = response.id;
+      // Insert the charge_id into the form so it gets submitted to the server
+      $form.append($('<input type="hidden" name="conektaChargeId" />').val(charge_id));
+      // and submit
+      $form.get(0).submit();
+    };
+
+    var conektaErrorResponseHandler = function(response) {
+      var $form = $('#payment-form');
+
+      // Show the errors on the form
+      $form.find('.payment-errors').text(response.message);
+      $form.find('button').prop('disabled', false);
+    };
+
     jQuery(function($) {
-      var conektaSuccessResponseHandler = function(status, response) {
-        var $form = $('#payment-form');
-
-          var charge_id = response.id;
-          // Insert the charge_id into the form so it gets submitted to the server
-          $form.append($('<input type="hidden" name="conektaChargeId" />').val(charge_id));
-          // and submit
-          $form.get(0).submit();
-      };
-
-      var conektaErrorResponseHandler = function(status, response) {
-        var $form = $('#payment-form');
-
-         // Show the errors on the form
-          $form.find('.payment-errors').text(response.message);
-          $form.find('button').prop('disabled', false);
-      };
 
       $('#payment-form').submit(function(event) {
         var $form = $(this);
@@ -38,7 +39,7 @@
         // Disable the submit button to prevent repeated clicks
         $form.find('button').prop('disabled', true);
 
-        Conekta.charge.new($('#payment-form'), conektaSuccessResponseCallback, conektaFailureResponseCallback);
+        Conekta.charge.new($('#payment-form'), conektaSuccessResponseHandler, conektaErrorResponseHandler);
 
         // Prevent the form from submitting with the default action
         return false;
