@@ -92,6 +92,33 @@
 }).call(this);
 
 (function() {
+  var parse_form;
+
+  parse_form = function($form) {
+    var charge;
+    charge = {};
+    $form.find('input[data-conekta]').each(function(i, input) {
+      var $input, attribute, attributes, last_attribute, node, parent_node, val, _i, _len;
+      $input = $(input);
+      val = $input.val();
+      attributes = $input.data('conekta').replace(/\]/, '').replace(/\-/, '_').split(/\[/);
+      parent_node;
+      node = charge;
+      last_attribute = null;
+      for (_i = 0, _len = attributes.length; _i < _len; _i++) {
+        attribute = attributes[_i];
+        if (!node[attribute]) {
+          node[attribute] = {};
+        }
+        parent_node = node;
+        last_attribute = attribute;
+        node = node[attribute];
+      }
+      return parent_node[last_attribute] = val;
+    });
+    return charge;
+  };
+
   Conekta.charge = {};
 
   Conekta.charge["new"] = function(charge, success_callback, failure_callback) {
@@ -101,7 +128,11 @@
     if (typeof failure_callback !== 'function') {
       failure_callback = Conekta._helpers.log;
     }
+    if (jQuery && charge instanceof jQuery) {
+      charge = parse_form(charge);
+    }
     if (typeof charge === 'object') {
+      charge._js = true;
       return Conekta._helpers.x_domain_post({
         jsonp_url: 'charges/create',
         url: 'charges',
