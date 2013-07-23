@@ -8,24 +8,40 @@ module.exports = function(grunt){
     coffee: {
       compile: {
           files: {
-            'build/conekta.js': ['src/conekta.js.coffee', 'src/charge.js.coffee', 'src/card.js.coffee'] //'src/ie_cors_patch.js.coffee',  
+            'build/conekta_no_dependencies.js': ['src/conekta.js.coffee', 'src/charge.js.coffee', 'src/card.js.coffee'] //'src/ie_cors_patch.js.coffee',  
           }
         }
     },
     concat:{
         conekta_js:{
-            src:["lib/easyXDM.min.js","lib/json2.min.js", "build/conekta.js"],
+            src:["build/conekta_no_dependencies.js", "lib/easyXDM.min.js","lib/json2.min.js"],
             dest:'build/conekta.js'
         }
     },
     uglify:{
+        no_dependencies:{
+          options:{
+            preserveComments:'some',
+          },
+          files:{
+            'build/conekta_no_dependencies.min.js':['build/conekta_no_dependencies.js']
+          }
+        },
         dependencies:{
-            src:'build/conekta.js',
-            dest:'build/conekta.min.js'
+          options:{
+            preserveComments:'some',
+          },
+          files:{
+            'build/conekta.min.js':['build/conekta.js']
+          }
         },
         json2:{
-            src:'lib/json2.js',
-            dest:'lib/json2.min.js'
+          options:{
+            preserveComments:'some'
+          },
+          files:{
+            'lib/json2.min.js':['lib/json2.js']
+          }
         }
     },
   });
