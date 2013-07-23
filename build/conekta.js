@@ -37,7 +37,7 @@
         if (navigator.userAgent.match(/MSIE [6789]+/)) {
           dataType = 'JSONP';
           type = 'GET';
-          params.url = params.jsonp_url || params.url;
+          params.url = (params.jsonp_url || params.url) + '.js';
           params.data.auth_token = Conekta.getPublishableToken();
         } else {
           params.url = params.url + '.json';
