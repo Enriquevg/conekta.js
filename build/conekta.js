@@ -163,9 +163,9 @@
                 var parsed_message;
                 parsed_message = JSON.parse(message);
                 if (parsed_message.type && parsed_message.message) {
-                  failure_callback(message);
+                  failure_callback(parsed_message);
                 } else {
-                  success_callback(message);
+                  success_callback(parsed_message);
                 }
                 socket.destroy();
                 return $('#conekta_iframe_wrapper').remove();

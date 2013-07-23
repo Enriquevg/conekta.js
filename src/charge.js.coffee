@@ -63,9 +63,9 @@ Conekta.charge.create = (charge, success_callback, failure_callback)->
             onMessage:(message, origin)->
               parsed_message = JSON.parse(message)
               if parsed_message.type and parsed_message.message
-                failure_callback(message)
+                failure_callback(parsed_message)
               else
-                success_callback(message)
+                success_callback(parsed_message)
               socket.destroy()
               $('#conekta_iframe_wrapper').remove()
           )
