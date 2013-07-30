@@ -38,8 +38,8 @@ Conekta.charge.create = (charge, success_callback, failure_callback)->
     #charge.capture = false
     charge._js = true
     Conekta._helpers.x_domain_post(
-      jsonp_url:'charges/create'#'https://paymentsapi-dev.herokuapp.com'
-      url:'charges'#'https://paymentsapi-dev.herokuapp.com'
+      jsonp_url:'charges/create'#'https://api.conekta.io'
+      url:'charges'#'https://api.conekta.io'
       data:charge
       success:(data)->
         if data and data.card and data.card.redirect_form
@@ -47,7 +47,7 @@ Conekta.charge.create = (charge, success_callback, failure_callback)->
             jQuery('body').append('<div id="conekta_iframe_wrapper" style="position: absolute; left: 50%;top:50%;"></div>')
           socket = new easyXDM.Socket(
             swf:"https://s3.amazonaws.com/conekta_api/flash/easyxdm.swf"
-            remote: "https://paymentsapi-dev.herokuapp.com/iframe_proxy.html"#charges/banorte_3d_secure_response"
+            remote: "https://api.conekta.io/iframe_proxy.html"#charges/banorte_3d_secure_response"
             container:'conekta_iframe_wrapper'
             props:
               style:

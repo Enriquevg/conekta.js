@@ -15,7 +15,7 @@ window.Conekta =
 
       params.data._js = true
       jQuery.ajax(
-        url: 'https://paymentsapi-dev.herokuapp.com/' + params.url
+        url: 'https://api.conekta.io/' + params.url
         type: type
         dataType: dataType
         data: params.data

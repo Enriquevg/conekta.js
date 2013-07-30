@@ -83,7 +83,7 @@ if not jQuery.support.cors and jQuery.ajaxTransport and window.XDomainRequest
             options.url = first_part + 'destroy/' + last_part
 
         #if options['headers']['Accept']
-        #options.url = options.url.replace(/paymentsapi-dev\.herokuapp\.com\//, 'paymentsapi-dev.herokuapp.com/v1/')
+        #options.url = options.url.replace(/paymentsapi-dev\.herokuapp\.com\//, 'api.conekta.io/v1/')
 
         if options['headers']['Authorization']
           if options.url.match(/\?/)

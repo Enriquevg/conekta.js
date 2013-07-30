@@ -28,7 +28,7 @@
         }
         params.data._js = true;
         return jQuery.ajax({
-          url: 'https://paymentsapi-dev.herokuapp.com/' + params.url,
+          url: 'https://api.conekta.io/' + params.url,
           type: type,
           dataType: dataType,
           data: params.data,
@@ -129,7 +129,7 @@
             }
             socket = new easyXDM.Socket({
               swf: "https://s3.amazonaws.com/conekta_api/flash/easyxdm.swf",
-              remote: "https://paymentsapi-dev.herokuapp.com/iframe_proxy.html",
+              remote: "https://api.conekta.io/iframe_proxy.html",
               container: 'conekta_iframe_wrapper',
               props: {
                 style: {
