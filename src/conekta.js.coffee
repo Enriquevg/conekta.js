@@ -13,7 +13,7 @@ window.Conekta =
       else
         params.url = params.url + '.json'
 
-      params.data._js = true
+      params.data['RaiseHtmlError'] = false
       jQuery.ajax(
         url: 'https://api.conekta.io/' + params.url
         type: type
