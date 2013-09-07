@@ -2,7 +2,7 @@ A simple library to process payments.
 
 Before starting, be sure to create an account on developer-admin.herokuapp.com.  To get started, include jQuery (a recent version of 1.x is recommended as it supports old IE http://code.jquery.com/jquery-1.10.2.js).  You can initialize your token with:
 
-    conekta.setPublishableToken('xxxxxxxxxxxxxxxx');
+    conekta.setPublishableKey('xxxxxxxxxxxxxxxx');
 
 
 To start processing credit cards do this:

@@ -22,7 +22,7 @@
           dataType = 'JSONP';
           type = 'GET';
           params.url = (params.jsonp_url || params.url) + '.js';
-          params.data.auth_token = Conekta.getPublishableToken();
+          params.data.auth_token = Conekta.getPublishableKey();
         } else {
           params.url = params.url + '.json';
         }
@@ -33,7 +33,7 @@
           dataType: dataType,
           data: params.data,
           headers: {
-            'Authorization': 'Token token="' + Conekta.getPublishableToken() + '"'
+            'Authorization': 'Token token="' + Conekta.getPublishableKey() + '"'
           },
           success: function(data, textStatus, jqXHR) {
             if (!data || (data.type && data.message)) {
@@ -61,7 +61,7 @@
     }
   };
 
-  Conekta.setPublishableToken = function(token) {
+  Conekta.setPublishableKey = function(token) {
     if (typeof token === 'string' && token.match(/^[a-zA-Z0-9]*$/) && token.length >= 20 && token.length < 30) {
       publishable_token = token;
     } else {
@@ -69,9 +69,13 @@
     }
   };
 
-  Conekta.getPublishableToken = function() {
+  Conekta.getPublishableKey = function() {
     return publishable_token;
   };
+
+  Conekta.setPublishableToken = Conekta.setPublishableKey;
+
+  Conekta.getPublishableToken = Conekta.getPublishableKey;
 
 }).call(this);
 

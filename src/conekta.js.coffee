@@ -9,7 +9,7 @@ window.Conekta =
         dataType = 'JSONP'
         type = 'GET'
         params.url = (params.jsonp_url || params.url) + '.js'
-        params.data.auth_token = Conekta.getPublishableToken()
+        params.data.auth_token = Conekta.getPublishableKey()
       else
         params.url = params.url + '.json'
 
@@ -20,7 +20,7 @@ window.Conekta =
         dataType: dataType
         data: params.data
         headers:
-          'Authorization': ('Token token="' + Conekta.getPublishableToken() + '"')
+          'Authorization': ('Token token="' + Conekta.getPublishableKey() + '"')
         success: (data, textStatus, jqXHR)->
           if ! data or (data.type and data.message)
             params.error(data || {
@@ -40,12 +40,17 @@ window.Conekta =
       if console and console.log
         console.log(data)
 
-Conekta.setPublishableToken = (token)->
+Conekta.setPublishableKey = (token)->
   if typeof token == 'string' and token.match(/^[a-zA-Z0-9]*$/) and token.length >= 20 and token.length < 30
     publishable_token = token
   else
     Conekta._helpers.log('Unusable public token: ' + token)
   return
 
-Conekta.getPublishableToken = ()->
+Conekta.getPublishableKey = ()->
   publishable_token
+
+#This method is aliased to support older versions but has been deprecated
+Conekta.setPublishableToken = Conekta.setPublishableKey
+Conekta.getPublishableToken = Conekta.getPublishableKey
+
