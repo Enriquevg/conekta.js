@@ -11,7 +11,8 @@
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
  
   <script type="text/javascript">
-    Conekta.setPublishableToken('YOUR_PUBLISHABLE_KEY');
+    var publishable_key = 'qKNKjndV9emCxuKE1G4z'; //set your publishable key here
+    Conekta.setPublishableKey(publishable_key);
 
     jQuery(function($) {
       var conektaSuccessResponseHandler = function(response) {
