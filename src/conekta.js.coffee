@@ -1,15 +1,16 @@
-publishable_token = null
+publishable_key = null
 
 window.Conekta = 
   _helpers:
     x_domain_post:(params)->
       type = 'POST'
       dataType = 'JSON'
-      if navigator.userAgent.match(/MSIE [6789]+/)
+      if navigator.userAgent.match(/MSIE [6789]+/) or document.location.protocol == 'file:'
         dataType = 'JSONP'
         type = 'GET'
         params.url = (params.jsonp_url || params.url) + '.js'
         params.data.auth_token = Conekta.getPublishableKey()
+        params.data['Accept'] = 'application/vnd.conekta-v0.1.0+json; charset=utf-8'
       else
         params.url = params.url + '.json'
 
@@ -17,10 +18,12 @@ window.Conekta =
       jQuery.ajax(
         url: 'https://api.conekta.io/' + params.url
         type: type
-        dataType: dataType
+        #dataType: dataType
         data: params.data
         headers:
-          'Authorization': ('Token token="' + Conekta.getPublishableKey() + '"')
+          'Accept': "application/vnd.conekta-v0.1.0+json; charset=utf-8"
+        username: Conekta.getPublishableKey()
+        password: ''
         success: (data, textStatus, jqXHR)->
           if ! data or (data.type and data.message)
             params.error(data || {
@@ -42,13 +45,13 @@ window.Conekta =
 
 Conekta.setPublishableKey = (token)->
   if typeof token == 'string' and token.match(/^[a-zA-Z0-9]*$/) and token.length >= 20 and token.length < 30
-    publishable_token = token
+    publishable_key = token
   else
     Conekta._helpers.log('Unusable public token: ' + token)
   return
 
 Conekta.getPublishableKey = ()->
-  publishable_token
+  publishable_key
 
 #This method is aliased to support older versions but has been deprecated
 Conekta.setPublishableToken = Conekta.setPublishableKey

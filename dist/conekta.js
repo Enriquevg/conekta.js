@@ -28,7 +28,7 @@
         }
         params.data['RaiseHtmlError'] = false;
         return jQuery.ajax({
-          url: 'https://api.conekta.io/' + params.url,
+          url: 'http://127.0.0.1:3000/' + params.url,
           type: type,
           dataType: dataType,
           data: params.data,
@@ -132,8 +132,8 @@
               jQuery('body').append('<div id="conekta_iframe_wrapper" style="position: absolute; left: 50%;top:50%;"></div>');
             }
             socket = new easyXDM.Socket({
-              swf: "https://s3.amazonaws.com/conekta_api/flash/easyxdm.swf",
-              remote: "https://api.conekta.io/iframe_proxy.html",
+              swf: "http://127.0.0.1:3000/easyxdm.swf",
+              remote: "http://127.0.0.1:3000/iframe_proxy.html",
               container: 'conekta_iframe_wrapper',
               props: {
                 style: {
