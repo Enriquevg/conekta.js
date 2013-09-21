@@ -82,14 +82,8 @@ if not jQuery.support.cors and jQuery.ajaxTransport and window.XDomainRequest
             last_part = options.url.substring(last_index_of + 1, options.url.length - 1)
             options.url = first_part + 'destroy/' + last_part
 
-        #if options['headers']['Accept']
-        #options.url = options.url.replace(/paymentsapi-dev\.herokuapp\.com\//, 'api.conekta.io/v1/')
-
-        if options['headers']['Authorization']
-          if options.url.match(/\?/)
-            options.url = options.url + '&auth_token=' + options['headers']['Authorization'].replace(/Token token\=\"/,'').replace(/"/,'')
-          else
-            options.url = options.url + '?auth_token=' + options['headers']['Authorization'].replace(/Token token\=\"/,'').replace(/"/,'')
+        if options['headers']['Accept']
+          options.url = options.url.replace(/paymentsapi-dev\.herokuapp\.com\//, 'api.conekta.io/v1/')
 
         data_hash = userOptions.data
         if typeof userOptions.data == 'string'

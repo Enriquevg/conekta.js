@@ -9,18 +9,18 @@ window.Conekta =
         dataType = 'JSONP'
         type = 'GET'
         params.url = (params.jsonp_url || params.url) + '.js'
-        params.data.auth_token = Conekta.getPublishableKey()
-      else
-        params.url = params.url + '.json'
+        params.data['RaiseHtmlError'] = false
 
-      params.data['RaiseHtmlError'] = false
       jQuery.ajax(
         url: 'https://api.conekta.io/' + params.url
         type: type
         dataType: dataType
         data: params.data
         headers:
-          'Authorization': ('Token token="' + Conekta.getPublishableKey() + '"')
+          'RaiseHtmlError': false
+          'Accept': 'application/vnd.conekta-v0.2.0+json'
+        user:Conekta.getPublishableKey()
+        password:''
         success: (data, textStatus, jqXHR)->
           if ! data or (data.type and data.message)
             params.error(data || {
@@ -49,8 +49,3 @@ Conekta.setPublishableKey = (token)->
 
 Conekta.getPublishableKey = ()->
   publishable_token
-
-#This method is aliased to support older versions but has been deprecated
-Conekta.setPublishableToken = Conekta.setPublishableKey
-Conekta.getPublishableToken = Conekta.getPublishableKey
-
