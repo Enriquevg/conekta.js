@@ -1,43 +1,44 @@
-parse_form = ($form)->
+parse_form = (charge_form)->
   charge = {}
-  $form.find('input[data-conekta]').each((i, input)->
-    $input = $(input)
-    val = $input.val()
-    attributes = $input.data('conekta').replace(/\]/, '').replace(/\-/,'_').split(/\[/)
+  textareas = Array.prototype.slice.call(charge_form.getElementsByTagName('textarea'))
+  inputs = Array.prototype.slice.call(charge_form.getElementsByTagName('input')).concat(textareas)
+  for input in inputs 
+    attribute_name = input.getAttribute('data-conekta')
+    if attribute_name
+      val = input.getAttribute('value') || input.innerHTML || input.value 
+      attributes = attribute_name.replace(/\]/, '').replace(/\-/,'_').split(/\[/)
 
-    parent_node
-    node = charge
-    last_attribute = null
-    for attribute in attributes
-      if ! node[attribute]
-        node[attribute] = {}
+      parent_node = null
+      node = charge
+      last_attribute = null
+      for attribute in attributes
+        if ! node[attribute]
+          node[attribute] = {}
 
-      parent_node = node
-      last_attribute = attribute
-      node = node[attribute]
+        parent_node = node
+        last_attribute = attribute
+        node = node[attribute]
 
 
-    parent_node[last_attribute] = val
-  )
+      parent_node[last_attribute] = val
 
   charge
 
 Conekta.charge = {}
 
-Conekta.charge.create = (charge, success_callback, failure_callback)->
+Conekta.charge.create = (charge_form, success_callback, failure_callback)->
   if typeof success_callback != 'function'
     success_callback = Conekta._helpers.log
 
   if typeof failure_callback != 'function'
     failure_callback = Conekta._helpers.log
 
-  if jQuery and charge instanceof jQuery
-    charge = parse_form(charge)
+  charge = parse_form(charge_form)
+  charge.session_id = Conekta._helpers.getSessionId()
 
   if typeof charge == 'object'
     #charge.capture = false
-    charge._js = true
-    Conekta._helpers.x_domain_post(
+    Conekta._helpers.xDomainPost(
       jsonp_url:'charges/create'#'https://api.conekta.io'
       url:'charges'#'https://api.conekta.io'
       data:charge
@@ -46,6 +47,7 @@ Conekta.charge.create = (charge, success_callback, failure_callback)->
     )
   else
     failure_callback(
+      'object':'error'
       'type':'invalid_request_error'
       'message':"Supplied parameter 'charge' is not a javascript object"
     )

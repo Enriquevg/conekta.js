@@ -8,13 +8,13 @@ module.exports = function(grunt){
     coffee: {
       compile: {
           files: {
-            'dist/conekta_no_dependencies.js': ['src/short_license.js.coffee', 'src/conekta.js.coffee', 'src/charge.js.coffee', 'src/card.js.coffee'] //'src/ie_cors_patch.js.coffee',  
+            'dist/conekta_no_dependencies.js': ['src/short_license.js.coffee', 'src/conekta.js.coffee', 'src/charge.js.coffee', 'src/card.js.coffee']
           }
         }
     },
     concat:{
         conekta_js:{
-            src:["dist/conekta_no_dependencies.js", "lib/easyXDM.min.js","lib/json2.min.js"],
+            src:["dist/conekta_no_dependencies.js", "lib/easyXDM.min.js","lib/json2.min.js", "lib/ajax.min.js"],
             dest:'dist/conekta.js'
         }
     },
@@ -41,6 +41,14 @@ module.exports = function(grunt){
           },
           files:{
             'lib/json2.min.js':['lib/json2.js']
+          }
+        },
+        ajax:{
+          options:{
+            preserveComments:'some'
+          },
+          files:{
+            'lib/ajax.min.js':['lib/ajax.js']
           }
         }
     },

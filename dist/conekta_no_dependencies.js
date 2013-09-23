@@ -8,166 +8,313 @@
 }).call(this);
 
 (function() {
-  var publishable_token;
+  var Base64, base_url, fingerprint, i, publishable_key, session_id, useable_characters, _i;
 
-  publishable_token = null;
+  base_url = 'http://127.0.0.1:3000/';
+
+  publishable_key = null;
+
+  session_id = "";
+
+  useable_characters = "abcdefghijklmnopqrstuvwxyz0123456789-_";
+
+  for (i = _i = 0; _i <= 87; i = ++_i) {
+    session_id += useable_characters.charAt(Math.floor(Math.random() * 38));
+  }
+
+  fingerprint = function() {
+    var body, fingerprint_png_img, fingerprint_png_p, fingerprint_script, fingerprint_swf_object, fingerprint_swf_param;
+    if (document.readyState === 'interactive' || document.readyState === 'complete') {
+      body = document.getElementsByTagName('body')[0];
+      fingerprint_png_p = document.createElement('p');
+      fingerprint_png_p.setAttribute("style", "background:url(https://h.online-metrix.net/fp/clear.png?org_id=1snn5n9w&amp;session_id=merchantID" + session_id + "&amp;m=1) ! important; display:none ! important;");
+      body.appendChild(fingerprint_png_p);
+      fingerprint_png_img = document.createElement('img');
+      fingerprint_png_img.setAttribute('style', 'display:none ! important;');
+      fingerprint_png_img.src = "https://h.online-metrix.net/fp/clear.png?org_id=1snn5n9w&amp;session_id=merchantID" + session_id + "&amp;m=2";
+      body.appendChild(fingerprint_png_img);
+      fingerprint_swf_object = document.createElement('object');
+      fingerprint_swf_object.type = 'application/x-shockwave-flash';
+      fingerprint_swf_object.data = "https://h.online-metrix.net/fp/fp.swf?org_id=1snn5n9w&amp;session_id=merchantID" + session_id;
+      fingerprint_swf_object.width = '1';
+      fingerprint_swf_object.setAttribute('style', 'display:none ! important;');
+      body.appendChild(fingerprint_swf_object);
+      fingerprint_swf_param = document.createElement('param');
+      fingerprint_swf_param.name = 'movie';
+      fingerprint_swf_param.setAttribute('style', 'display:none ! important;');
+      fingerprint_swf_param.value = 'https://h.online-metrix.net/fp/fp.swf?org_id=1snn5n9w&amp;session_id=merchant' + session_id;
+      fingerprint_swf_param.appendChild(document.createElement('div'));
+      body.appendChild(fingerprint_swf_param);
+      fingerprint_script = document.createElement('script');
+      fingerprint_script.type = 'text/javascript';
+      fingerprint_script.src = 'https://h.online-metrix.net/fp/check.js?org_id=1snn5n9w&amp;session_id=merchantID' + session_id;
+      return body.appendChild(fingerprint_script);
+    } else {
+      return setTimeout(fingerprint, 150);
+    }
+  };
+
+  fingerprint();
+
+  Base64 = {
+    _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+    encode: function(input) {
+      var chr1, chr2, chr3, enc1, enc2, enc3, enc4, output;
+      output = "";
+      chr1 = void 0;
+      chr2 = void 0;
+      chr3 = void 0;
+      enc1 = void 0;
+      enc2 = void 0;
+      enc3 = void 0;
+      enc4 = void 0;
+      i = 0;
+      input = Base64._utf8_encode(input);
+      while (i < input.length) {
+        chr1 = input.charCodeAt(i++);
+        chr2 = input.charCodeAt(i++);
+        chr3 = input.charCodeAt(i++);
+        enc1 = chr1 >> 2;
+        enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+        enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+        enc4 = chr3 & 63;
+        if (isNaN(chr2)) {
+          enc3 = enc4 = 64;
+        } else {
+          if (isNaN(chr3)) {
+            enc4 = 64;
+          }
+        }
+        output = output + Base64._keyStr.charAt(enc1) + Base64._keyStr.charAt(enc2) + Base64._keyStr.charAt(enc3) + Base64._keyStr.charAt(enc4);
+      }
+      return output;
+    },
+    decode: function(input) {
+      var chr1, chr2, chr3, enc1, enc2, enc3, enc4, output;
+      output = "";
+      chr1 = void 0;
+      chr2 = void 0;
+      chr3 = void 0;
+      enc1 = void 0;
+      enc2 = void 0;
+      enc3 = void 0;
+      enc4 = void 0;
+      i = 0;
+      input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+      while (i < input.length) {
+        enc1 = Base64._keyStr.indexOf(input.charAt(i++));
+        enc2 = Base64._keyStr.indexOf(input.charAt(i++));
+        enc3 = Base64._keyStr.indexOf(input.charAt(i++));
+        enc4 = Base64._keyStr.indexOf(input.charAt(i++));
+        chr1 = (enc1 << 2) | (enc2 >> 4);
+        chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+        chr3 = ((enc3 & 3) << 6) | enc4;
+        output = output + String.fromCharCode(chr1);
+        if (enc3 !== 64) {
+          output = output + String.fromCharCode(chr2);
+        }
+        if (enc4 !== 64) {
+          output = output + String.fromCharCode(chr3);
+        }
+      }
+      output = Base64._utf8_decode(output);
+      return output;
+    },
+    _utf8_encode: function(string) {
+      var c, n, utftext;
+      string = string.replace(/\r\n/g, "\n");
+      utftext = "";
+      n = 0;
+      while (n < string.length) {
+        c = string.charCodeAt(n);
+        if (c < 128) {
+          utftext += String.fromCharCode(c);
+        } else if ((c > 127) && (c < 2048)) {
+          utftext += String.fromCharCode((c >> 6) | 192);
+          utftext += String.fromCharCode((c & 63) | 128);
+        } else {
+          utftext += String.fromCharCode((c >> 12) | 224);
+          utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+          utftext += String.fromCharCode((c & 63) | 128);
+        }
+        n++;
+      }
+      return utftext;
+    },
+    _utf8_decode: function(utftext) {
+      var c, c1, c2, c3, string;
+      string = "";
+      i = 0;
+      c = c1 = c2 = 0;
+      while (i < utftext.length) {
+        c = utftext.charCodeAt(i);
+        if (c < 128) {
+          string += String.fromCharCode(c);
+          i++;
+        } else if ((c > 191) && (c < 224)) {
+          c2 = utftext.charCodeAt(i + 1);
+          string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+          i += 2;
+        } else {
+          c2 = utftext.charCodeAt(i + 1);
+          c3 = utftext.charCodeAt(i + 2);
+          string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+          i += 3;
+        }
+      }
+      return string;
+    }
+  };
 
   window.Conekta = {
+    setPublishableKey: function(key) {
+      if (typeof key === 'string' && key.match(/^[a-zA-Z0-9]*$/) && key.length >= 20 && key.length < 30) {
+        publishable_key = key;
+      } else {
+        Conekta._helpers.log('Unusable public key: ' + key);
+      }
+    },
+    getPublishableKey: function() {
+      return publishable_key;
+    },
     _helpers: {
-      x_domain_post: function(params) {
-        var dataType, type;
-        type = 'POST';
-        dataType = 'JSON';
-        if (navigator.userAgent.match(/MSIE [6789]+/)) {
-          dataType = 'JSONP';
-          type = 'GET';
-          params.url = (params.jsonp_url || params.url) + '.js';
-          params.data.auth_token = Conekta.getPublishableKey();
-        } else {
-          params.url = params.url + '.json';
-        }
-        params.data['RaiseHtmlError'] = false;
-        return jQuery.ajax({
-          url: 'https://api.conekta.io/' + params.url,
-          type: type,
-          dataType: dataType,
-          data: params.data,
-          headers: {
-            'Authorization': 'Token token="' + Conekta.getPublishableKey() + '"'
-          },
-          success: function(data, textStatus, jqXHR) {
-            if (!data || (data.type && data.message)) {
-              return params.error(data || {
-                type: 'api_error',
-                message: "Something went wrong on Conekta's end"
-              });
-            } else {
-              return params.success(data);
-            }
-          },
-          error: function() {
-            return params.error({
+      getSessionId: function() {
+        return session_id;
+      },
+      xDomainPost: function(params) {
+        var error_callback, rpc, success_callback;
+        success_callback = function(data, textStatus, jqXHR) {
+          if (!data || (data.object === 'error')) {
+            return params.error(data || {
+              object: 'error',
               type: 'api_error',
-              message: 'Something went wrong, possibly a connectivity issue'
+              message: "Something went wrong on Conekta's end"
             });
+          } else {
+            return params.success(data);
           }
-        });
+        };
+        error_callback = function() {
+          return params.error({
+            object: 'error',
+            type: 'api_error',
+            message: 'Something went wrong, possibly a connectivity issue'
+          });
+        };
+        if (document.location.protocol === 'file:') {
+          params.url = (params.jsonp_url || params.url) + '.js';
+          params.data['_Version'] = "0.2.0";
+          params.data['_RaiseHtmlError'] = false;
+          params.data['auth_token'] = Conekta.getPublishableKey();
+          return ajax({
+            url: base_url + params.url,
+            dataType: 'jsonp',
+            data: params.data,
+            success: success_callback,
+            error: error_callback
+          });
+        } else {
+          if (false && typeof (new XMLHttpRequest()).withCredentials !== 'undefined') {
+            return ajax({
+              url: base_url + params.url,
+              type: 'POST',
+              dataType: 'json',
+              data: params.data,
+              headers: {
+                'RaiseHtmlError': false,
+                'Accept': 'application/vnd.conekta-v0.2.0+json',
+                'Authorization': 'Basic ' + Base64.encode(Conekta.getPublishableKey() + ':')
+              },
+              success: success_callback,
+              error: error_callback
+            });
+          } else {
+            rpc = new easyXDM.Rpc({
+              swf: "https://s3.amazonaws.com/conekta_api/flash/easyxdm.swf",
+              remote: base_url + "easyxdm_cors_proxy.html"
+            }, {
+              remote: {
+                request: {}
+              }
+            });
+            return rpc.request({
+              url: base_url + params.url,
+              method: 'POST',
+              headers: {
+                'RaiseHtmlError': false,
+                'Accept': 'application/vnd.conekta-v0.2.0+json',
+                'Authorization': 'Basic ' + Base64.encode(Conekta.getPublishableKey() + ':')
+              },
+              data: JSON.stringify(params.data)
+            }, success_callback, error_callback);
+          }
+        }
       },
       log: function(data) {
-        if (console && console.log) {
+        if (typeof console !== 'undefined' && console.log) {
           return console.log(data);
         }
       }
     }
   };
 
-  Conekta.setPublishableKey = function(token) {
-    if (typeof token === 'string' && token.match(/^[a-zA-Z0-9]*$/) && token.length >= 20 && token.length < 30) {
-      publishable_token = token;
-    } else {
-      Conekta._helpers.log('Unusable public token: ' + token);
-    }
-  };
-
-  Conekta.getPublishableKey = function() {
-    return publishable_token;
-  };
-
-  Conekta.setPublishableToken = Conekta.setPublishableKey;
-
-  Conekta.getPublishableToken = Conekta.getPublishableKey;
-
 }).call(this);
 
 (function() {
   var parse_form;
 
-  parse_form = function($form) {
-    var charge;
+  parse_form = function(charge_form) {
+    var attribute, attribute_name, attributes, charge, input, inputs, last_attribute, node, parent_node, textareas, val, _i, _j, _len, _len1;
     charge = {};
-    $form.find('input[data-conekta]').each(function(i, input) {
-      var $input, attribute, attributes, last_attribute, node, parent_node, val, _i, _len;
-      $input = $(input);
-      val = $input.val();
-      attributes = $input.data('conekta').replace(/\]/, '').replace(/\-/, '_').split(/\[/);
-      parent_node;
-      node = charge;
-      last_attribute = null;
-      for (_i = 0, _len = attributes.length; _i < _len; _i++) {
-        attribute = attributes[_i];
-        if (!node[attribute]) {
-          node[attribute] = {};
+    textareas = Array.prototype.slice.call(charge_form.getElementsByTagName('textarea'));
+    inputs = Array.prototype.slice.call(charge_form.getElementsByTagName('input')).concat(textareas);
+    for (_i = 0, _len = inputs.length; _i < _len; _i++) {
+      input = inputs[_i];
+      attribute_name = input.getAttribute('data-conekta');
+      if (attribute_name) {
+        val = input.getAttribute('value') || input.innerHTML || input.value;
+        attributes = attribute_name.replace(/\]/, '').replace(/\-/, '_').split(/\[/);
+        parent_node = null;
+        node = charge;
+        last_attribute = null;
+        for (_j = 0, _len1 = attributes.length; _j < _len1; _j++) {
+          attribute = attributes[_j];
+          if (!node[attribute]) {
+            node[attribute] = {};
+          }
+          parent_node = node;
+          last_attribute = attribute;
+          node = node[attribute];
         }
-        parent_node = node;
-        last_attribute = attribute;
-        node = node[attribute];
+        parent_node[last_attribute] = val;
       }
-      return parent_node[last_attribute] = val;
-    });
+    }
     return charge;
   };
 
   Conekta.charge = {};
 
-  Conekta.charge.create = function(charge, success_callback, failure_callback) {
+  Conekta.charge.create = function(charge_form, success_callback, failure_callback) {
+    var charge;
     if (typeof success_callback !== 'function') {
       success_callback = Conekta._helpers.log;
     }
     if (typeof failure_callback !== 'function') {
       failure_callback = Conekta._helpers.log;
     }
-    if (jQuery && charge instanceof jQuery) {
-      charge = parse_form(charge);
-    }
+    charge = parse_form(charge_form);
+    charge.session_id = Conekta._helpers.getSessionId();
     if (typeof charge === 'object') {
-      charge._js = true;
-      return Conekta._helpers.x_domain_post({
+      return Conekta._helpers.xDomainPost({
         jsonp_url: 'charges/create',
         url: 'charges',
         data: charge,
-        success: function(data) {
-          var socket;
-          if (data && data.card && data.card.redirect_form) {
-            if (jQuery('div#conekta_iframe_wrapper').length === 0) {
-              jQuery('body').append('<div id="conekta_iframe_wrapper" style="position: absolute; left: 50%;top:50%;"></div>');
-            }
-            socket = new easyXDM.Socket({
-              swf: "https://s3.amazonaws.com/conekta_api/flash/easyxdm.swf",
-              remote: "https://api.conekta.io/iframe_proxy.html",
-              container: 'conekta_iframe_wrapper',
-              props: {
-                style: {
-                  width: '376px',
-                  height: '400px',
-                  position: 'relative',
-                  left: '-188px',
-                  'margin-top': '-200px',
-                  'overflow-x': 'hidden',
-                  'overflow-y': 'hidden'
-                },
-                scrolling: 'no'
-              },
-              onMessage: function(message, origin) {
-                var parsed_message;
-                parsed_message = JSON.parse(message);
-                if (parsed_message.type && parsed_message.message) {
-                  failure_callback(parsed_message);
-                } else {
-                  success_callback(parsed_message);
-                }
-                socket.destroy();
-                return $('#conekta_iframe_wrapper').remove();
-              }
-            });
-            return socket.postMessage(JSON.stringify(data.card.redirect_form));
-          } else {
-            return success_callback(data);
-          }
-        },
+        success: success_callback,
         error: failure_callback
       });
     } else {
       return failure_callback({
+        'object': 'error',
         'type': 'invalid_request_error',
         'message': "Supplied parameter 'charge' is not a javascript object"
       });
