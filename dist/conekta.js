@@ -10,7 +10,7 @@
 (function() {
   var Base64, base_url, fingerprint, i, publishable_key, session_id, useable_characters, _i;
 
-  base_url = 'http://127.0.0.1:3000/';
+  base_url = 'https://api.conekta.io/';
 
   publishable_key = null;
 
@@ -230,7 +230,7 @@
             });
           } else {
             rpc = new easyXDM.Rpc({
-              swf: "https://s3.amazonaws.com/conekta_api/flash/easyxdm.swf",
+              swf: "https://conektaapi.s3.amazonaws.com/flash/easyxdm.swf",
               remote: base_url + "easyxdm_cors_proxy.html"
             }, {
               remote: {
