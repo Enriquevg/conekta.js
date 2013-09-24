@@ -230,7 +230,7 @@
             });
           } else {
             rpc = new easyXDM.Rpc({
-              swf: "https://conektaapi.s3.amazonaws.com/flash/easyxdm.swf",
+              swf: "https://conektaapi.s3.amazonaws.com/v0.2.0/flash/easyxdm.swf",
               remote: base_url + "easyxdm_cors_proxy.html"
             }, {
               remote: {
