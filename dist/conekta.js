@@ -16,10 +16,10 @@
 
   session_id = "";
 
-  useable_characters = "abcdefghijklmnopqrstuvwxyz0123456789-_";
+  useable_characters = "abcdefghijklmnopqrstuvwxyz0123456789";
 
-  for (i = _i = 0; _i <= 87; i = ++_i) {
-    session_id += useable_characters.charAt(Math.floor(Math.random() * 38));
+  for (i = _i = 0; _i <= 30; i = ++_i) {
+    session_id += useable_characters.charAt(Math.floor(Math.random() * 36));
   }
 
   fingerprint = function() {
@@ -27,27 +27,27 @@
     if (document.readyState === 'interactive' || document.readyState === 'complete') {
       body = document.getElementsByTagName('body')[0];
       fingerprint_png_p = document.createElement('p');
-      fingerprint_png_p.setAttribute("style", "background:url(https://h.online-metrix.net/fp/clear.png?org_id=1snn5n9w&amp;session_id=merchantID" + session_id + "&amp;m=1) ! important; display:none ! important;");
+      fingerprint_png_p.setAttribute("style", "background:url(https://h.online-metrix.net/fp/clear.png?org_id=k8vif92e&session_id=banorteixe_conekta" + session_id + "&m=1) ! important; display:none ! important;");
       body.appendChild(fingerprint_png_p);
       fingerprint_png_img = document.createElement('img');
       fingerprint_png_img.setAttribute('style', 'display:none ! important;');
-      fingerprint_png_img.src = "https://h.online-metrix.net/fp/clear.png?org_id=1snn5n9w&amp;session_id=merchantID" + session_id + "&amp;m=2";
+      fingerprint_png_img.src = "https://h.online-metrix.net/fp/clear.png?org_id=k8vif92e&session_id=banorteixe_conekta" + session_id + "&m=2";
       body.appendChild(fingerprint_png_img);
       fingerprint_swf_object = document.createElement('object');
       fingerprint_swf_object.type = 'application/x-shockwave-flash';
-      fingerprint_swf_object.data = "https://h.online-metrix.net/fp/fp.swf?org_id=1snn5n9w&amp;session_id=merchantID" + session_id;
+      fingerprint_swf_object.data = "https://h.online-metrix.net/fp/fp.swf?org_id=k8vif92e&session_id=banorteixe_conekta" + session_id;
       fingerprint_swf_object.width = '1';
       fingerprint_swf_object.setAttribute('style', 'display:none ! important;');
       body.appendChild(fingerprint_swf_object);
       fingerprint_swf_param = document.createElement('param');
       fingerprint_swf_param.name = 'movie';
       fingerprint_swf_param.setAttribute('style', 'display:none ! important;');
-      fingerprint_swf_param.value = 'https://h.online-metrix.net/fp/fp.swf?org_id=1snn5n9w&amp;session_id=merchant' + session_id;
+      fingerprint_swf_param.value = 'https://h.online-metrix.net/fp/fp.swf?org_id=k8vif92e&session_id=merchant' + session_id;
       fingerprint_swf_param.appendChild(document.createElement('div'));
       body.appendChild(fingerprint_swf_param);
       fingerprint_script = document.createElement('script');
       fingerprint_script.type = 'text/javascript';
-      fingerprint_script.src = 'https://h.online-metrix.net/fp/check.js?org_id=1snn5n9w&amp;session_id=merchantID' + session_id;
+      fingerprint_script.src = 'https://h.online-metrix.net/fp/check.js?org_id=k8vif92e&session_id=banorteixe_conekta' + session_id;
       return body.appendChild(fingerprint_script);
     } else {
       return setTimeout(fingerprint, 150);
@@ -214,7 +214,7 @@
             error: error_callback
           });
         } else {
-          if (false && typeof (new XMLHttpRequest()).withCredentials !== 'undefined') {
+          if (typeof (new XMLHttpRequest()).withCredentials !== 'undefined') {
             return ajax({
               url: base_url + params.url,
               type: 'POST',
@@ -264,29 +264,52 @@
   var parse_form;
 
   parse_form = function(charge_form) {
-    var attribute, attribute_name, attributes, charge, input, inputs, last_attribute, node, parent_node, textareas, val, _i, _j, _len, _len1;
+    var attribute, attribute_name, attributes, charge, input, inputs, last_attribute, line_item, node, parent_node, textareas, val, _i, _j, _k, _len, _len1, _len2, _ref;
     charge = {};
-    textareas = Array.prototype.slice.call(charge_form.getElementsByTagName('textarea'));
-    inputs = Array.prototype.slice.call(charge_form.getElementsByTagName('input')).concat(textareas);
-    for (_i = 0, _len = inputs.length; _i < _len; _i++) {
-      input = inputs[_i];
-      attribute_name = input.getAttribute('data-conekta');
-      if (attribute_name) {
-        val = input.getAttribute('value') || input.innerHTML || input.value;
-        attributes = attribute_name.replace(/\]/, '').replace(/\-/, '_').split(/\[/);
-        parent_node = null;
-        node = charge;
-        last_attribute = null;
-        for (_j = 0, _len1 = attributes.length; _j < _len1; _j++) {
-          attribute = attributes[_j];
-          if (!node[attribute]) {
-            node[attribute] = {};
+    if (typeof charge_form === 'object') {
+      if (charge_form instanceof HTMLElement) {
+        textareas = Array.prototype.slice.call(charge_form.getElementsByTagName('textarea'));
+        inputs = Array.prototype.slice.call(charge_form.getElementsByTagName('input')).concat(textareas);
+        for (_i = 0, _len = inputs.length; _i < _len; _i++) {
+          input = inputs[_i];
+          attribute_name = input.getAttribute('data-conekta');
+          if (attribute_name) {
+            val = input.getAttribute('value') || input.innerHTML || input.value;
+            attributes = attribute_name.replace(/\]/, '').replace(/\-/, '_').split(/\[/);
+            parent_node = null;
+            node = charge;
+            last_attribute = null;
+            for (_j = 0, _len1 = attributes.length; _j < _len1; _j++) {
+              attribute = attributes[_j];
+              if (!node[attribute]) {
+                node[attribute] = {};
+              }
+              parent_node = node;
+              last_attribute = attribute;
+              node = node[attribute];
+            }
+            parent_node[last_attribute] = val;
           }
-          parent_node = node;
-          last_attribute = attribute;
-          node = node[attribute];
         }
-        parent_node[last_attribute] = val;
+      } else {
+        charge = charge_form;
+      }
+    }
+    if (typeof charge.amount === 'number') {
+      charge.amount = Math.round(charge.amount);
+    }
+    if (charge.details) {
+      if (typeof charge.details.line_items === 'object') {
+        _ref = charge.details.line_items;
+        for (_k = 0, _len2 = _ref.length; _k < _len2; _k++) {
+          line_item = _ref[_k];
+          if (typeof line_item.unit_price === 'number') {
+            line_item.unit_price = Math.round(line_item.unit_price);
+          }
+        }
+      }
+      if (charge.details.shipment && typeof charge.details.shipment.price === 'number') {
+        Math.round(charge.details.shipment.price);
       }
     }
     return charge;

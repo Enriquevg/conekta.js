@@ -2,9 +2,9 @@ base_url = 'https://api.conekta.io/'
 publishable_key = null
 session_id = ""
 
-useable_characters = "abcdefghijklmnopqrstuvwxyz0123456789-_"
-for i in [0..87]
-  session_id += useable_characters.charAt(Math.floor(Math.random() * 38))
+useable_characters = "abcdefghijklmnopqrstuvwxyz0123456789"
+for i in [0..30]
+  session_id += useable_characters.charAt(Math.floor(Math.random() * 36))
 
 fingerprint = ->
   if document.readyState == 'interactive' or document.readyState == 'complete'
@@ -12,18 +12,18 @@ fingerprint = ->
 
     #fingerprinting png
     fingerprint_png_p = document.createElement('p')
-    fingerprint_png_p.setAttribute("style", "background:url(https://h.online-metrix.net/fp/clear.png?org_id=1snn5n9w&amp;session_id=merchantID" + session_id + "&amp;m=1) ! important; display:none ! important;")
+    fingerprint_png_p.setAttribute("style", "background:url(https://h.online-metrix.net/fp/clear.png?org_id=k8vif92e&session_id=banorteixe_conekta" + session_id + "&m=1) ! important; display:none ! important;")
     body.appendChild(fingerprint_png_p)
 
     fingerprint_png_img = document.createElement('img')
     fingerprint_png_img.setAttribute('style', 'display:none ! important;')
-    fingerprint_png_img.src = "https://h.online-metrix.net/fp/clear.png?org_id=1snn5n9w&amp;session_id=merchantID" + session_id + "&amp;m=2"
+    fingerprint_png_img.src = "https://h.online-metrix.net/fp/clear.png?org_id=k8vif92e&session_id=banorteixe_conekta" + session_id + "&m=2"
     body.appendChild(fingerprint_png_img)
 
     #fingerprinting swf
     fingerprint_swf_object = document.createElement('object')
     fingerprint_swf_object.type = 'application/x-shockwave-flash'
-    fingerprint_swf_object.data = "https://h.online-metrix.net/fp/fp.swf?org_id=1snn5n9w&amp;session_id=merchantID" + session_id
+    fingerprint_swf_object.data = "https://h.online-metrix.net/fp/fp.swf?org_id=k8vif92e&session_id=banorteixe_conekta" + session_id
     fingerprint_swf_object.width = '1'
     fingerprint_swf_object.setAttribute('style', 'display:none ! important;')
     body.appendChild(fingerprint_swf_object)
@@ -31,14 +31,14 @@ fingerprint = ->
     fingerprint_swf_param = document.createElement('param')
     fingerprint_swf_param.name = 'movie'
     fingerprint_swf_param.setAttribute('style', 'display:none ! important;')
-    fingerprint_swf_param.value = 'https://h.online-metrix.net/fp/fp.swf?org_id=1snn5n9w&amp;session_id=merchant' + session_id
+    fingerprint_swf_param.value = 'https://h.online-metrix.net/fp/fp.swf?org_id=k8vif92e&session_id=merchant' + session_id
     fingerprint_swf_param.appendChild(document.createElement('div'))
     body.appendChild(fingerprint_swf_param)
 
     #fingerprinting script
     fingerprint_script = document.createElement('script')
     fingerprint_script.type = 'text/javascript'
-    fingerprint_script.src = 'https://h.online-metrix.net/fp/check.js?org_id=1snn5n9w&amp;session_id=merchantID' + session_id
+    fingerprint_script.src = 'https://h.online-metrix.net/fp/check.js?org_id=k8vif92e&session_id=banorteixe_conekta' + session_id
     body.appendChild(fingerprint_script)
   else
     setTimeout(fingerprint, 150)
@@ -192,7 +192,7 @@ window.Conekta =
           error: error_callback
         )
       else
-        if false and typeof (new XMLHttpRequest()).withCredentials != 'undefined'
+        if typeof (new XMLHttpRequest()).withCredentials != 'undefined'
           ajax(
             url: base_url + params.url
             type: 'POST'

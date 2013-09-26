@@ -1,26 +1,30 @@
 parse_form = (charge_form)->
   charge = {}
-  textareas = Array.prototype.slice.call(charge_form.getElementsByTagName('textarea'))
-  inputs = Array.prototype.slice.call(charge_form.getElementsByTagName('input')).concat(textareas)
-  for input in inputs 
-    attribute_name = input.getAttribute('data-conekta')
-    if attribute_name
-      val = input.getAttribute('value') || input.innerHTML || input.value 
-      attributes = attribute_name.replace(/\]/, '').replace(/\-/,'_').split(/\[/)
+  if typeof charge_form == 'object'
+    if charge_form instanceof HTMLElement
+      textareas = Array.prototype.slice.call(charge_form.getElementsByTagName('textarea'))
+      inputs = Array.prototype.slice.call(charge_form.getElementsByTagName('input')).concat(textareas)
+      for input in inputs 
+        attribute_name = input.getAttribute('data-conekta')
+        if attribute_name
+          val = input.getAttribute('value') || input.innerHTML || input.value 
+          attributes = attribute_name.replace(/\]/, '').replace(/\-/,'_').split(/\[/)
 
-      parent_node = null
-      node = charge
-      last_attribute = null
-      for attribute in attributes
-        if ! node[attribute]
-          node[attribute] = {}
+          parent_node = null
+          node = charge
+          last_attribute = null
+          for attribute in attributes
+            if ! node[attribute]
+              node[attribute] = {}
 
-        parent_node = node
-        last_attribute = attribute
-        node = node[attribute]
+            parent_node = node
+            last_attribute = attribute
+            node = node[attribute]
 
 
-      parent_node[last_attribute] = val
+          parent_node[last_attribute] = val
+    else
+      charge = charge_form
 
   charge
 
