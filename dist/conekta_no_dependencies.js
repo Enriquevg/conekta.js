@@ -8,9 +8,9 @@
 }).call(this);
 
 (function() {
-  var publishable_token;
+  var publishable_key;
 
-  publishable_token = null;
+  publishable_key = null;
 
   window.Conekta = {
     _helpers: {
@@ -18,11 +18,12 @@
         var dataType, type;
         type = 'POST';
         dataType = 'JSON';
-        if (navigator.userAgent.match(/MSIE [6789]+/)) {
+        if (navigator.userAgent.match(/MSIE [6789]+/) || document.location.protocol === 'file:') {
           dataType = 'JSONP';
           type = 'GET';
           params.url = (params.jsonp_url || params.url) + '.js';
           params.data.auth_token = Conekta.getPublishableKey();
+          params.data['Accept'] = 'application/vnd.conekta-v0.1.0+json; charset=utf-8';
         } else {
           params.url = params.url + '.json';
         }
@@ -30,11 +31,12 @@
         return jQuery.ajax({
           url: 'https://api.conekta.io/' + params.url,
           type: type,
-          dataType: dataType,
           data: params.data,
           headers: {
-            'Authorization': 'Token token="' + Conekta.getPublishableKey() + '"'
+            'Accept': "application/vnd.conekta-v0.1.0+json; charset=utf-8"
           },
+          username: Conekta.getPublishableKey(),
+          password: '',
           success: function(data, textStatus, jqXHR) {
             if (!data || (data.type && data.message)) {
               return params.error(data || {
@@ -62,15 +64,15 @@
   };
 
   Conekta.setPublishableKey = function(token) {
-    if (typeof token === 'string' && token.match(/^[a-zA-Z0-9]*$/) && token.length >= 20 && token.length < 30) {
-      publishable_token = token;
+    if (typeof token === 'string' && token.match(/^[a-zA-Z0-9_]*$/) && token.length >= 20 && token.length < 30) {
+      publishable_key = token;
     } else {
       Conekta._helpers.log('Unusable public token: ' + token);
     }
   };
 
   Conekta.getPublishableKey = function() {
-    return publishable_token;
+    return publishable_key;
   };
 
   Conekta.setPublishableToken = Conekta.setPublishableKey;

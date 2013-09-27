@@ -44,7 +44,7 @@ window.Conekta =
         console.log(data)
 
 Conekta.setPublishableKey = (token)->
-  if typeof token == 'string' and token.match(/^[a-zA-Z0-9]*$/) and token.length >= 20 and token.length < 30
+  if typeof token == 'string' and token.match(/^[a-zA-Z0-9_]*$/) and token.length >= 20 and token.length < 30
     publishable_key = token
   else
     Conekta._helpers.log('Unusable public token: ' + token)
