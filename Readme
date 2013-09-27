@@ -1,6 +1,6 @@
 A simple library to process payments.
 
-Before starting, be sure to create an account on admin.conekta.io.  To get started, include jQuery (a recent version of 1.x is recommended as it supports old IE http://code.jquery.com/jquery-1.10.2.js).  You can initialize your token with:
+Before starting, be sure to create an account on admin.conekta.io.  To get started, include jQuery (a recent version of 1.x is recommended as it supports old IE http://code.jquery.com/jquery-1.10.2.js) and conekta.js (https://s3.amazonaws.com/conektaapi/v0.2.0/js/conekta.js) on your page.  You can initialize your token with:
 
     conekta.setPublishableKey('xxxxxxxxxxxxxxxx');
 
