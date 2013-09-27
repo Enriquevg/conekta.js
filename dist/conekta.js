@@ -168,7 +168,7 @@
 
   window.Conekta = {
     setPublishableKey: function(key) {
-      if (typeof key === 'string' && key.match(/^[a-zA-Z0-9]*$/) && key.length >= 20 && key.length < 30) {
+      if (typeof key === 'string' && key.match(/^[a-zA-Z0-9_]*$/) && key.length >= 20 && key.length < 30) {
         publishable_key = key;
       } else {
         Conekta._helpers.log('Unusable public key: ' + key);
@@ -264,7 +264,7 @@
   var parse_form;
 
   parse_form = function(charge_form) {
-    var attribute, attribute_name, attributes, charge, input, inputs, last_attribute, line_item, node, parent_node, textareas, val, _i, _j, _k, _len, _len1, _len2, _ref;
+    var attribute, attribute_name, attributes, charge, input, inputs, last_attribute, node, parent_node, textareas, val, _i, _j, _len, _len1;
     charge = {};
     if (typeof charge_form === 'object') {
       if (charge_form instanceof HTMLElement) {
@@ -293,23 +293,6 @@
         }
       } else {
         charge = charge_form;
-      }
-    }
-    if (typeof charge.amount === 'number') {
-      charge.amount = Math.round(charge.amount);
-    }
-    if (charge.details) {
-      if (typeof charge.details.line_items === 'object') {
-        _ref = charge.details.line_items;
-        for (_k = 0, _len2 = _ref.length; _k < _len2; _k++) {
-          line_item = _ref[_k];
-          if (typeof line_item.unit_price === 'number') {
-            line_item.unit_price = Math.round(line_item.unit_price);
-          }
-        }
-      }
-      if (charge.details.shipment && typeof charge.details.shipment.price === 'number') {
-        Math.round(charge.details.shipment.price);
       }
     }
     return charge;

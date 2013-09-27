@@ -147,7 +147,7 @@ Base64 =
 
 window.Conekta = 
   setPublishableKey: (key)->
-    if typeof key == 'string' and key.match(/^[a-zA-Z0-9]*$/) and key.length >= 20 and key.length < 30
+    if typeof key == 'string' and key.match(/^[a-zA-Z0-9_]*$/) and key.length >= 20 and key.length < 30
       publishable_key = key
     else
       Conekta._helpers.log('Unusable public key: ' + key)
