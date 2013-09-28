@@ -267,6 +267,9 @@
     var attribute, attribute_name, attributes, charge, input, inputs, last_attribute, node, parent_node, textareas, val, _i, _j, _len, _len1;
     charge = {};
     if (typeof charge_form === 'object') {
+      if (typeof jQuery !== 'undefined' && charge_form instanceof jQuery) {
+        charge_form = charge_form.get()[0];
+      }
       if (charge_form instanceof HTMLElement) {
         textareas = Array.prototype.slice.call(charge_form.getElementsByTagName('textarea'));
         inputs = Array.prototype.slice.call(charge_form.getElementsByTagName('input')).concat(textareas);

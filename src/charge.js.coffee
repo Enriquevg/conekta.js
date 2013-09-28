@@ -1,6 +1,9 @@
 parse_form = (charge_form)->
   charge = {}
   if typeof charge_form == 'object'
+    if typeof jQuery != 'undefined' and charge_form instanceof jQuery
+      charge_form = charge_form.get()[0]
+
     if charge_form instanceof HTMLElement
       textareas = Array.prototype.slice.call(charge_form.getElementsByTagName('textarea'))
       inputs = Array.prototype.slice.call(charge_form.getElementsByTagName('input')).concat(textareas)
@@ -20,7 +23,6 @@ parse_form = (charge_form)->
             parent_node = node
             last_attribute = attribute
             node = node[attribute]
-
 
           parent_node[last_attribute] = val
     else
