@@ -1,11 +1,5 @@
-/*!conekta.js v0.1.0 | 2013- Conekta | https://github.com/conekta/conekta.js/blob/master/LICENSE-MIT.txt
+/*conekta.js v0.1.0 | 2013- Conekta | https://github.com/conekta/conekta.js/blob/master/LICENSE-MIT.txt
 */
-
-
-(function() {
-
-
-}).call(this);
 
 (function() {
   var Base64, base_url, fingerprint, i, publishable_key, session_id, useable_characters, _i;
@@ -24,7 +18,7 @@
 
   fingerprint = function() {
     var body, fingerprint_png_img, fingerprint_png_p, fingerprint_script, fingerprint_swf_object, fingerprint_swf_param;
-    if (document.readyState === 'interactive' || document.readyState === 'complete') {
+    if (typeof document !== 'undefined' && (document.readyState === 'interactive' || document.readyState === 'complete')) {
       body = document.getElementsByTagName('body')[0];
       fingerprint_png_p = document.createElement('p');
       fingerprint_png_p.setAttribute("style", "background:url(https://h.online-metrix.net/fp/clear.png?org_id=k8vif92e&session_id=banorteixe_conekta" + session_id + "&m=1) ! important; display:none ! important;");

@@ -8,11 +8,15 @@ module.exports = function(grunt){
     coffee: {
       compile: {
           files: {
-            'dist/conekta_no_dependencies.js': ['src/short_license.js.coffee', 'src/conekta.js.coffee', 'src/charge.js.coffee', 'src/card.js.coffee']
+            'dist/conekta_no_dependencies.js': ['src/conekta.js.coffee', 'src/charge.js.coffee', 'src/card.js.coffee']
           }
         }
     },
     concat:{
+        conekta_no_dependencies:{
+            src:['src/short_license.js', "dist/conekta_no_dependencies.js"],
+            dest:'dist/conekta_no_dependencies.js'
+        },
         conekta_js:{
             src:["dist/conekta_no_dependencies.js", "lib/easyXDM.min.js","lib/json2.min.js", "lib/ajax.min.js"],
             dest:'dist/conekta.js'

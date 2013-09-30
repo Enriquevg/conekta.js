@@ -7,7 +7,7 @@ for i in [0..30]
   session_id += useable_characters.charAt(Math.floor(Math.random() * 36))
 
 fingerprint = ->
-  if document.readyState == 'interactive' or document.readyState == 'complete'
+  if typeof document != 'undefined' and (document.readyState == 'interactive' or document.readyState == 'complete')
     body = document.getElementsByTagName('body')[0]
 
     #fingerprinting png
