@@ -18,7 +18,7 @@ module.exports = function(grunt){
             dest:'dist/conekta_no_dependencies.js'
         },
         conekta_js:{
-            src:["dist/conekta_no_dependencies.js", "lib/easyXDM.min.js","lib/json2.min.js", "lib/ajax.min.js"],
+            src:["dist/conekta_no_dependencies.js", "lib/easyXDM.min.js","lib/json2.min.js", "lib/ajax.js"],
             dest:'dist/conekta.js'
         }
     },

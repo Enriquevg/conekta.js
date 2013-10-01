@@ -17,8 +17,8 @@
   }
 
   fingerprint = function() {
-    var body, fingerprint_png_img, fingerprint_png_p, fingerprint_script, fingerprint_swf_object, fingerprint_swf_param;
-    if (typeof document !== 'undefined' && (document.readyState === 'interactive' || document.readyState === 'complete')) {
+    var body, fingerprint_png_img, fingerprint_png_p, fingerprint_script, fingerprint_swf_param;
+    if (typeof document !== 'undefined' && typeof document.body !== 'undefined' && document.body && typeof HTMLElement !== 'undefined' && (document.readyState === 'interactive' || document.readyState === 'complete')) {
       body = document.getElementsByTagName('body')[0];
       fingerprint_png_p = document.createElement('p');
       fingerprint_png_p.setAttribute("style", "background:url(https://h.online-metrix.net/fp/clear.png?org_id=k8vif92e&session_id=banorteixe_conekta" + session_id + "&m=1) ! important; display:none ! important;");
@@ -27,12 +27,15 @@
       fingerprint_png_img.setAttribute('style', 'display:none ! important;');
       fingerprint_png_img.src = "https://h.online-metrix.net/fp/clear.png?org_id=k8vif92e&session_id=banorteixe_conekta" + session_id + "&m=2";
       body.appendChild(fingerprint_png_img);
-      fingerprint_swf_object = document.createElement('object');
-      fingerprint_swf_object.type = 'application/x-shockwave-flash';
-      fingerprint_swf_object.data = "https://h.online-metrix.net/fp/fp.swf?org_id=k8vif92e&session_id=banorteixe_conekta" + session_id;
-      fingerprint_swf_object.width = '1';
-      fingerprint_swf_object.setAttribute('style', 'display:none ! important;');
-      body.appendChild(fingerprint_swf_object);
+      setTimeout(function() {
+        var fingerprint_swf_object;
+        fingerprint_swf_object = document.createElement('object');
+        fingerprint_swf_object.type = 'application/x-shockwave-flash';
+        fingerprint_swf_object.data = "https://h.online-metrix.net/fp/fp.swf?org_id=k8vif92e&session_id=banorteixe_conekta" + session_id;
+        fingerprint_swf_object.width = '1';
+        fingerprint_swf_object.setAttribute('style', 'display:none ! important;');
+        body.appendChild(fingerprint_swf_object);
+      }, 500);
       fingerprint_swf_param = document.createElement('param');
       fingerprint_swf_param.name = 'movie';
       fingerprint_swf_param.setAttribute('style', 'display:none ! important;');
@@ -42,9 +45,9 @@
       fingerprint_script = document.createElement('script');
       fingerprint_script.type = 'text/javascript';
       fingerprint_script.src = 'https://h.online-metrix.net/fp/check.js?org_id=k8vif92e&session_id=banorteixe_conekta' + session_id;
-      return body.appendChild(fingerprint_script);
+      body.appendChild(fingerprint_script);
     } else {
-      return setTimeout(fingerprint, 150);
+      setTimeout(fingerprint, 150);
     }
   };
 

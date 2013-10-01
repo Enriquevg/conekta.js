@@ -7,7 +7,7 @@ for i in [0..30]
   session_id += useable_characters.charAt(Math.floor(Math.random() * 36))
 
 fingerprint = ->
-  if typeof document != 'undefined' and (document.readyState == 'interactive' or document.readyState == 'complete')
+  if typeof document != 'undefined' and typeof document.body != 'undefined' and document.body and typeof HTMLElement != 'undefined' and (document.readyState == 'interactive' or document.readyState == 'complete')
     body = document.getElementsByTagName('body')[0]
 
     #fingerprinting png
@@ -21,12 +21,15 @@ fingerprint = ->
     body.appendChild(fingerprint_png_img)
 
     #fingerprinting swf
-    fingerprint_swf_object = document.createElement('object')
-    fingerprint_swf_object.type = 'application/x-shockwave-flash'
-    fingerprint_swf_object.data = "https://h.online-metrix.net/fp/fp.swf?org_id=k8vif92e&session_id=banorteixe_conekta" + session_id
-    fingerprint_swf_object.width = '1'
-    fingerprint_swf_object.setAttribute('style', 'display:none ! important;')
-    body.appendChild(fingerprint_swf_object)
+    setTimeout(()->
+      fingerprint_swf_object = document.createElement('object')
+      fingerprint_swf_object.type = 'application/x-shockwave-flash'
+      fingerprint_swf_object.data = "https://h.online-metrix.net/fp/fp.swf?org_id=k8vif92e&session_id=banorteixe_conekta" + session_id
+      fingerprint_swf_object.width = '1'
+      fingerprint_swf_object.setAttribute('style', 'display:none ! important;')
+      body.appendChild(fingerprint_swf_object)
+      return
+    , 500)
 
     fingerprint_swf_param = document.createElement('param')
     fingerprint_swf_param.name = 'movie'
@@ -42,6 +45,7 @@ fingerprint = ->
     body.appendChild(fingerprint_script)
   else
     setTimeout(fingerprint, 150)
+  return
 
 fingerprint()
 

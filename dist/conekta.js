@@ -17,8 +17,8 @@
   }
 
   fingerprint = function() {
-    var body, fingerprint_png_img, fingerprint_png_p, fingerprint_script, fingerprint_swf_object, fingerprint_swf_param;
-    if (typeof document !== 'undefined' && (document.readyState === 'interactive' || document.readyState === 'complete')) {
+    var body, fingerprint_png_img, fingerprint_png_p, fingerprint_script, fingerprint_swf_param;
+    if (typeof document !== 'undefined' && typeof document.body !== 'undefined' && document.body && typeof HTMLElement !== 'undefined' && (document.readyState === 'interactive' || document.readyState === 'complete')) {
       body = document.getElementsByTagName('body')[0];
       fingerprint_png_p = document.createElement('p');
       fingerprint_png_p.setAttribute("style", "background:url(https://h.online-metrix.net/fp/clear.png?org_id=k8vif92e&session_id=banorteixe_conekta" + session_id + "&m=1) ! important; display:none ! important;");
@@ -27,12 +27,15 @@
       fingerprint_png_img.setAttribute('style', 'display:none ! important;');
       fingerprint_png_img.src = "https://h.online-metrix.net/fp/clear.png?org_id=k8vif92e&session_id=banorteixe_conekta" + session_id + "&m=2";
       body.appendChild(fingerprint_png_img);
-      fingerprint_swf_object = document.createElement('object');
-      fingerprint_swf_object.type = 'application/x-shockwave-flash';
-      fingerprint_swf_object.data = "https://h.online-metrix.net/fp/fp.swf?org_id=k8vif92e&session_id=banorteixe_conekta" + session_id;
-      fingerprint_swf_object.width = '1';
-      fingerprint_swf_object.setAttribute('style', 'display:none ! important;');
-      body.appendChild(fingerprint_swf_object);
+      setTimeout(function() {
+        var fingerprint_swf_object;
+        fingerprint_swf_object = document.createElement('object');
+        fingerprint_swf_object.type = 'application/x-shockwave-flash';
+        fingerprint_swf_object.data = "https://h.online-metrix.net/fp/fp.swf?org_id=k8vif92e&session_id=banorteixe_conekta" + session_id;
+        fingerprint_swf_object.width = '1';
+        fingerprint_swf_object.setAttribute('style', 'display:none ! important;');
+        body.appendChild(fingerprint_swf_object);
+      }, 500);
       fingerprint_swf_param = document.createElement('param');
       fingerprint_swf_param.name = 'movie';
       fingerprint_swf_param.setAttribute('style', 'display:none ! important;');
@@ -42,9 +45,9 @@
       fingerprint_script = document.createElement('script');
       fingerprint_script.type = 'text/javascript';
       fingerprint_script.src = 'https://h.online-metrix.net/fp/check.js?org_id=k8vif92e&session_id=banorteixe_conekta' + session_id;
-      return body.appendChild(fingerprint_script);
+      body.appendChild(fingerprint_script);
     } else {
-      return setTimeout(fingerprint, 150);
+      setTimeout(fingerprint, 150);
     }
   };
 
@@ -517,4 +520,318 @@
  * This is a reference implementation. You are free to copy, modify, or redistribute.
  */
 "object"!=typeof JSON&&(JSON={}),function(){"use strict";function f(a){return 10>a?"0"+a:a}function quote(a){return escapable.lastIndex=0,escapable.test(a)?'"'+a.replace(escapable,function(a){var b=meta[a];return"string"==typeof b?b:"\\u"+("0000"+a.charCodeAt(0).toString(16)).slice(-4)})+'"':'"'+a+'"'}function str(a,b){var c,d,e,f,g,h=gap,i=b[a];switch(i&&"object"==typeof i&&"function"==typeof i.toJSON&&(i=i.toJSON(a)),"function"==typeof rep&&(i=rep.call(b,a,i)),typeof i){case"string":return quote(i);case"number":return isFinite(i)?String(i):"null";case"boolean":case"null":return String(i);case"object":if(!i)return"null";if(gap+=indent,g=[],"[object Array]"===Object.prototype.toString.apply(i)){for(f=i.length,c=0;f>c;c+=1)g[c]=str(c,i)||"null";return e=0===g.length?"[]":gap?"[\n"+gap+g.join(",\n"+gap)+"\n"+h+"]":"["+g.join(",")+"]",gap=h,e}if(rep&&"object"==typeof rep)for(f=rep.length,c=0;f>c;c+=1)"string"==typeof rep[c]&&(d=rep[c],e=str(d,i),e&&g.push(quote(d)+(gap?": ":":")+e));else for(d in i)Object.prototype.hasOwnProperty.call(i,d)&&(e=str(d,i),e&&g.push(quote(d)+(gap?": ":":")+e));return e=0===g.length?"{}":gap?"{\n"+gap+g.join(",\n"+gap)+"\n"+h+"}":"{"+g.join(",")+"}",gap=h,e}}"function"!=typeof Date.prototype.toJSON&&(Date.prototype.toJSON=function(){return isFinite(this.valueOf())?this.getUTCFullYear()+"-"+f(this.getUTCMonth()+1)+"-"+f(this.getUTCDate())+"T"+f(this.getUTCHours())+":"+f(this.getUTCMinutes())+":"+f(this.getUTCSeconds())+"Z":null},String.prototype.toJSON=Number.prototype.toJSON=Boolean.prototype.toJSON=function(){return this.valueOf()});var cx=/[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,escapable=/[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,gap,indent,meta={"\b":"\\b","	":"\\t","\n":"\\n","\f":"\\f","\r":"\\r",'"':'\\"',"\\":"\\\\"},rep;"function"!=typeof JSON.stringify&&(JSON.stringify=function(a,b,c){var d;if(gap="",indent="","number"==typeof c)for(d=0;c>d;d+=1)indent+=" ";else"string"==typeof c&&(indent=c);if(rep=b,b&&"function"!=typeof b&&("object"!=typeof b||"number"!=typeof b.length))throw new Error("JSON.stringify");return str("",{"":a})}),"function"!=typeof JSON.parse&&(JSON.parse=function(text,reviver){function walk(a,b){var c,d,e=a[b];if(e&&"object"==typeof e)for(c in e)Object.prototype.hasOwnProperty.call(e,c)&&(d=walk(e,c),void 0!==d?e[c]=d:delete e[c]);return reviver.call(a,b,e)}var j;if(text=String(text),cx.lastIndex=0,cx.test(text)&&(text=text.replace(cx,function(a){return"\\u"+("0000"+a.charCodeAt(0).toString(16)).slice(-4)})),/^[\],:{}\s]*$/.test(text.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g,"@").replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,"]").replace(/(?:^|:|,)(?:\s*\[)+/g,"")))return j=eval("("+text+")"),"function"==typeof reviver?walk({"":j},""):j;throw new SyntaxError("JSON.parse")})}();
-function triggerAndReturn(){return!0}function triggerGlobal(a,b,c,d){return a.global?triggerAndReturn(b||document,c,d):void 0}function ajaxStart(a){a.global&&0===ajax.active++&&triggerGlobal(a,null,"ajaxStart")}function ajaxStop(a){a.global&&!--ajax.active&&triggerGlobal(a,null,"ajaxStop")}function ajaxBeforeSend(a,b){var c=b.context;return b.beforeSend.call(c,a,b)===!1||triggerGlobal(b,c,"ajaxBeforeSend",[a,b])===!1?!1:(triggerGlobal(b,c,"ajaxSend",[a,b]),void 0)}function ajaxSuccess(a,b,c){var d=c.context,e="success";c.success.call(d,a,e,b),triggerGlobal(c,d,"ajaxSuccess",[b,c,a]),ajaxComplete(e,b,c)}function ajaxError(a,b,c,d){var e=d.context;d.error.call(e,c,b,a),triggerGlobal(d,e,"ajaxError",[c,d,a]),ajaxComplete(b,c,d)}function ajaxComplete(a,b,c){var d=c.context;c.complete.call(d,b,a),triggerGlobal(c,d,"ajaxComplete",[b,c]),ajaxStop(c)}function empty(){}function mimeToDataType(a){return a&&(a==htmlType?"html":a==jsonType?"json":scriptTypeRE.test(a)?"script":xmlTypeRE.test(a)&&"xml")||"text"}function appendQuery(a,b){return(a+"&"+b).replace(/[&?]{1,2}/,"?")}function serializeData(a){"object"==typeof a.data&&(a.data=param(a.data)),!a.data||a.type&&"GET"!=a.type.toUpperCase()||(a.url=appendQuery(a.url,a.data))}function serialize(a,b,c,d){var e="array"==typeof b;for(var f in b){var g=b[f];d&&(f=c?d:d+"["+(e?"":f)+"]"),!d&&e?a.add(g.name,g.value):(c?"array"==typeof g:"object"==typeof g)?serialize(a,g,c,f):a.add(f,g)}}function param(a,b){var c=[];return c.add=function(a,b){this.push(escape(a)+"="+escape(b))},serialize(c,a,b),c.join("&").replace("%20","+")}function extend(a){var b=Array.prototype.slice;return b.call(arguments,1).forEach(function(b){for(key in b)void 0!==b[key]&&(a[key]=b[key])}),a}var jsonpID=0,document=window.document,key,name,rscript=/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,scriptTypeRE=/^(?:text|application)\/javascript/i,xmlTypeRE=/^(?:text|application)\/xml/i,jsonType="application/json",htmlType="text/html",blankRE=/^\s*$/;window.ajax=function(a){var b=extend({},a||{});for(key in ajax.settings)void 0===b[key]&&(b[key]=ajax.settings[key]);ajaxStart(b),b.crossDomain||(b.crossDomain=/^([\w-]+:)?\/\/([^\/]+)/.test(b.url)&&RegExp.$2!=window.location.host);var c=b.dataType,d=/=\?/.test(b.url);if("jsonp"==c||d)return d||(b.url=appendQuery(b.url,"callback=?")),ajax.JSONP(b);b.url||(b.url=window.location.toString()),serializeData(b);var e,f=b.accepts[c],g={},h=/^([\w-]+:)\/\//.test(b.url)?RegExp.$1:window.location.protocol,i=ajax.settings.xhr();b.crossDomain||(g["X-Requested-With"]="XMLHttpRequest"),f&&(g.Accept=f,f.indexOf(",")>-1&&(f=f.split(",",2)[0]),i.overrideMimeType&&i.overrideMimeType(f)),(b.contentType||b.data&&"GET"!=b.type.toUpperCase())&&(g["Content-Type"]=b.contentType||"application/x-www-form-urlencoded"),b.headers=extend(g,b.headers||{}),i.onreadystatechange=function(){if(4==i.readyState){clearTimeout(e);var a,d=!1;if(i.status>=200&&i.status<300||304==i.status||0==i.status&&"file:"==h){c=c||mimeToDataType(i.getResponseHeader("content-type")),a=i.responseText;try{"script"==c?(1,eval)(a):"xml"==c?a=i.responseXML:"json"==c&&(a=blankRE.test(a)?null:JSON.parse(a))}catch(f){d=f}d?ajaxError(d,"parsererror",i,b):ajaxSuccess(a,i,b)}else ajaxError(null,"error",i,b)}};var j="async"in b?b.async:!0;i.open(b.type,b.url,j);for(name in b.headers)i.setRequestHeader(name,b.headers[name]);return ajaxBeforeSend(i,b)===!1?(i.abort(),!1):(b.timeout>0&&(e=setTimeout(function(){i.onreadystatechange=empty,i.abort(),ajaxError(null,"timeout",i,b)},b.timeout)),i.send(b.data?b.data:null),i)},ajax.active=0,ajax.JSONP=function(a){if(!("type"in a))return ajax(a);var b,c="jsonp"+ ++jsonpID,d=document.createElement("script"),e=function(){c in window&&(window[c]=empty),ajaxComplete("abort",f,a)},f={abort:e},g=document.getElementsByTagName("head")[0]||document.documentElement;return a.error&&(d.onerror=function(){f.abort(),a.error()}),window[c]=function(d){clearTimeout(b),delete window[c],ajaxSuccess(d,f,a)},serializeData(a),d.src=a.url.replace(/=\?/,"="+c),g.insertBefore(d,g.firstChild),a.timeout>0&&(b=setTimeout(function(){f.abort(),ajaxComplete("timeout",f,a)},a.timeout)),f},ajax.settings={type:"GET",beforeSend:empty,success:empty,error:empty,complete:empty,context:null,global:!0,xhr:function(){return new window.XMLHttpRequest},accepts:{script:"text/javascript, application/javascript",json:jsonType,xml:"application/xml, text/xml",html:htmlType,text:"text/plain"},crossDomain:!1,timeout:0},ajax.get=function(a,b){return ajax({url:a,success:b})},ajax.post=function(a,b,c,d){return"function"==typeof b&&(d=d||c,c=b,b=null),ajax({type:"POST",url:a,data:b,success:c,dataType:d})},ajax.getJSON=function(a,b){return ajax({url:a,success:b,dataType:"json"})};var escape=encodeURIComponent;
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var type
+try {
+  type = require('type-of')
+} catch (ex) {
+  //hide from browserify
+  var r = require
+  type = r('type')
+}
+
+var jsonpID = 0,
+    document = window.document,
+    key,
+    name,
+    rscript = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+    scriptTypeRE = /^(?:text|application)\/javascript/i,
+    xmlTypeRE = /^(?:text|application)\/xml/i,
+    jsonType = 'application/json',
+    htmlType = 'text/html',
+    blankRE = /^\s*$/
+
+var ajax = module.exports = function(options){
+  var settings = extend({}, options || {})
+  for (key in ajax.settings) if (settings[key] === undefined) settings[key] = ajax.settings[key]
+
+  ajaxStart(settings)
+
+  if (!settings.crossDomain) settings.crossDomain = /^([\w-]+:)?\/\/([^\/]+)/.test(settings.url) &&
+    RegExp.$2 != window.location.host
+
+  var dataType = settings.dataType, hasPlaceholder = /=\?/.test(settings.url)
+  if (dataType == 'jsonp' || hasPlaceholder) {
+    if (!hasPlaceholder) settings.url = appendQuery(settings.url, 'callback=?')
+    return ajax.JSONP(settings)
+  }
+
+  if (!settings.url) settings.url = window.location.toString()
+  serializeData(settings)
+
+  var mime = settings.accepts[dataType],
+      baseHeaders = { },
+      protocol = /^([\w-]+:)\/\//.test(settings.url) ? RegExp.$1 : window.location.protocol,
+      xhr = ajax.settings.xhr(), abortTimeout
+
+  if (!settings.crossDomain) baseHeaders['X-Requested-With'] = 'XMLHttpRequest'
+  if (mime) {
+    baseHeaders['Accept'] = mime
+    if (mime.indexOf(',') > -1) mime = mime.split(',', 2)[0]
+    xhr.overrideMimeType && xhr.overrideMimeType(mime)
+  }
+  if (settings.contentType || (settings.data && settings.type.toUpperCase() != 'GET'))
+    baseHeaders['Content-Type'] = (settings.contentType || 'application/x-www-form-urlencoded')
+  settings.headers = extend(baseHeaders, settings.headers || {})
+
+  xhr.onreadystatechange = function(){
+    if (xhr.readyState == 4) {
+      clearTimeout(abortTimeout)
+      var result, error = false
+      if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304 || (xhr.status == 0 && protocol == 'file:')) {
+        dataType = dataType || mimeToDataType(xhr.getResponseHeader('content-type'))
+        result = xhr.responseText
+
+        try {
+          if (dataType == 'script')    (1,eval)(result)
+          else if (dataType == 'xml')  result = xhr.responseXML
+          else if (dataType == 'json') result = blankRE.test(result) ? null : JSON.parse(result)
+        } catch (e) { error = e }
+
+        if (error) ajaxError(error, 'parsererror', xhr, settings)
+        else ajaxSuccess(result, xhr, settings)
+      } else {
+        ajaxError(null, 'error', xhr, settings)
+      }
+    }
+  }
+
+  var async = 'async' in settings ? settings.async : true
+  xhr.open(settings.type, settings.url, async)
+
+  for (name in settings.headers) xhr.setRequestHeader(name, settings.headers[name])
+
+  if (ajaxBeforeSend(xhr, settings) === false) {
+    xhr.abort()
+    return false
+  }
+
+  if (settings.timeout > 0) abortTimeout = setTimeout(function(){
+      xhr.onreadystatechange = empty
+      xhr.abort()
+      ajaxError(null, 'timeout', xhr, settings)
+    }, settings.timeout)
+
+  // avoid sending empty string (#319)
+  xhr.send(settings.data ? settings.data : null)
+  return xhr
+}
+
+
+// trigger a custom event and return false if it was cancelled
+function triggerAndReturn(context, eventName, data) {
+  //todo: Fire off some events
+  //var event = $.Event(eventName)
+  //$(context).trigger(event, data)
+  return true;//!event.defaultPrevented
+}
+
+// trigger an Ajax "global" event
+function triggerGlobal(settings, context, eventName, data) {
+  if (settings.global) return triggerAndReturn(context || document, eventName, data)
+}
+
+// Number of active Ajax requests
+ajax.active = 0
+
+function ajaxStart(settings) {
+  if (settings.global && ajax.active++ === 0) triggerGlobal(settings, null, 'ajaxStart')
+}
+function ajaxStop(settings) {
+  if (settings.global && !(--ajax.active)) triggerGlobal(settings, null, 'ajaxStop')
+}
+
+// triggers an extra global event "ajaxBeforeSend" that's like "ajaxSend" but cancelable
+function ajaxBeforeSend(xhr, settings) {
+  var context = settings.context
+  if (settings.beforeSend.call(context, xhr, settings) === false ||
+      triggerGlobal(settings, context, 'ajaxBeforeSend', [xhr, settings]) === false)
+    return false
+
+  triggerGlobal(settings, context, 'ajaxSend', [xhr, settings])
+}
+function ajaxSuccess(data, xhr, settings) {
+  var context = settings.context, status = 'success'
+  settings.success.call(context, data, status, xhr)
+  triggerGlobal(settings, context, 'ajaxSuccess', [xhr, settings, data])
+  ajaxComplete(status, xhr, settings)
+}
+// type: "timeout", "error", "abort", "parsererror"
+function ajaxError(error, type, xhr, settings) {
+  var context = settings.context
+  settings.error.call(context, xhr, type, error)
+  triggerGlobal(settings, context, 'ajaxError', [xhr, settings, error])
+  ajaxComplete(type, xhr, settings)
+}
+// status: "success", "notmodified", "error", "timeout", "abort", "parsererror"
+function ajaxComplete(status, xhr, settings) {
+  var context = settings.context
+  settings.complete.call(context, xhr, status)
+  triggerGlobal(settings, context, 'ajaxComplete', [xhr, settings])
+  ajaxStop(settings)
+}
+
+// Empty function, used as default callback
+function empty() {}
+
+ajax.JSONP = function(options){
+  if (!('type' in options)) return ajax(options)
+
+  var callbackName = 'jsonp' + (++jsonpID),
+    script = document.createElement('script'),
+    abort = function(){
+      //todo: remove script
+      //$(script).remove()
+      if (callbackName in window) window[callbackName] = empty
+      ajaxComplete('abort', xhr, options)
+    },
+    xhr = { abort: abort }, abortTimeout,
+    head = document.getElementsByTagName("head")[0]
+      || document.documentElement
+
+  if (options.error) script.onerror = function() {
+    xhr.abort()
+    options.error()
+  }
+
+  window[callbackName] = function(data){
+    clearTimeout(abortTimeout)
+      //todo: remove script
+      //$(script).remove()
+    delete window[callbackName]
+    ajaxSuccess(data, xhr, options)
+  }
+
+  serializeData(options)
+  script.src = options.url.replace(/=\?/, '=' + callbackName)
+
+  // Use insertBefore instead of appendChild to circumvent an IE6 bug.
+  // This arises when a base node is used (see jQuery bugs #2709 and #4378).
+  head.insertBefore(script, head.firstChild);
+
+  if (options.timeout > 0) abortTimeout = setTimeout(function(){
+      xhr.abort()
+      ajaxComplete('timeout', xhr, options)
+    }, options.timeout)
+
+  return xhr
+}
+
+ajax.settings = {
+  // Default type of request
+  type: 'GET',
+  // Callback that is executed before request
+  beforeSend: empty,
+  // Callback that is executed if the request succeeds
+  success: empty,
+  // Callback that is executed the the server drops error
+  error: empty,
+  // Callback that is executed on request complete (both: error and success)
+  complete: empty,
+  // The context for the callbacks
+  context: null,
+  // Whether to trigger "global" Ajax events
+  global: true,
+  // Transport
+  xhr: function () {
+    return new window.XMLHttpRequest()
+  },
+  // MIME types mapping
+  accepts: {
+    script: 'text/javascript, application/javascript',
+    json:   jsonType,
+    xml:    'application/xml, text/xml',
+    html:   htmlType,
+    text:   'text/plain'
+  },
+  // Whether the request is to another domain
+  crossDomain: false,
+  // Default timeout
+  timeout: 0
+}
+
+function mimeToDataType(mime) {
+  return mime && ( mime == htmlType ? 'html' :
+    mime == jsonType ? 'json' :
+    scriptTypeRE.test(mime) ? 'script' :
+    xmlTypeRE.test(mime) && 'xml' ) || 'text'
+}
+
+function appendQuery(url, query) {
+  return (url + '&' + query).replace(/[&?]{1,2}/, '?')
+}
+
+// serialize payload and append it to the URL for GET requests
+function serializeData(options) {
+  if (type(options.data) === 'object') options.data = param(options.data)
+  if (options.data && (!options.type || options.type.toUpperCase() == 'GET'))
+    options.url = appendQuery(options.url, options.data)
+}
+
+ajax.get = function(url, success){ return ajax({ url: url, success: success }) }
+
+ajax.post = function(url, data, success, dataType){
+  if (type(data) === 'function') dataType = dataType || success, success = data, data = null
+  return ajax({ type: 'POST', url: url, data: data, success: success, dataType: dataType })
+}
+
+ajax.getJSON = function(url, success){
+  return ajax({ url: url, success: success, dataType: 'json' })
+}
+
+var escape = encodeURIComponent
+
+function serialize(params, obj, traditional, scope){
+  var array = type(obj) === 'array';
+  for (var key in obj) {
+    var value = obj[key];
+
+    if (scope) key = traditional ? scope : scope + '[' + (array ? '' : key) + ']'
+    // handle data in serializeArray() format
+    if (!scope && array) params.add(value.name, value.value)
+    // recurse into nested objects
+    else if (traditional ? (type(value) === 'array') : (type(value) === 'object'))
+      serialize(params, value, traditional, key)
+    else params.add(key, value)
+  }
+}
+
+function param(obj, traditional){
+  var params = []
+  params.add = function(k, v){ this.push(escape(k) + '=' + escape(v)) }
+  serialize(params, obj, traditional)
+  return params.join('&').replace('%20', '+')
+}
+
+function extend(target) {
+  var slice = Array.prototype.slice;
+  slice.call(arguments, 1).forEach(function(source) {
+    for (key in source)
+      if (source[key] !== undefined)
+        target[key] = source[key]
+  })
+  return target
+}
+},{"type-of":2}],2:[function(require,module,exports){
+var toString = Object.prototype.toString
+
+module.exports = function(val){
+  switch (toString.call(val)) {
+    case '[object Function]': return 'function'
+    case '[object Date]': return 'date'
+    case '[object RegExp]': return 'regexp'
+    case '[object Arguments]': return 'arguments'
+    case '[object Array]': return 'array'
+    case '[object String]': return 'string'
+  }
+
+  if (val === null) return 'null'
+  if (val === undefined) return 'undefined'
+  if (val && val.nodeType === 1) return 'element'
+  if (val === Object(val)) return 'object'
+
+  return typeof val
+}
+
+},{}]},{},[1])
+;
