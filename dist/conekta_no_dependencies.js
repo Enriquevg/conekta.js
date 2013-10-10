@@ -18,7 +18,7 @@
 
   fingerprint = function() {
     var body, fingerprint_png_img, fingerprint_png_p, fingerprint_script, fingerprint_swf_param;
-    if (typeof document !== 'undefined' && typeof document.body !== 'undefined' && document.body && typeof HTMLElement !== 'undefined' && (document.readyState === 'interactive' || document.readyState === 'complete')) {
+    if (typeof document !== 'undefined' && typeof document.body !== 'undefined' && document.body && (document.readyState === 'interactive' || document.readyState === 'complete')) {
       body = document.getElementsByTagName('body')[0];
       fingerprint_png_p = document.createElement('p');
       fingerprint_png_p.setAttribute("style", "background:url(https://h.online-metrix.net/fp/clear.png?org_id=k8vif92e&session_id=banorteixe_conekta" + session_id + "&m=1) ! important; display:none ! important;");
@@ -40,7 +40,9 @@
       fingerprint_swf_param.name = 'movie';
       fingerprint_swf_param.setAttribute('style', 'display:none ! important;');
       fingerprint_swf_param.value = 'https://h.online-metrix.net/fp/fp.swf?org_id=k8vif92e&session_id=merchant' + session_id;
-      fingerprint_swf_param.appendChild(document.createElement('div'));
+      if (typeof fingerprint_swf_param.appendChild === 'function') {
+        fingerprint_swf_param.appendChild(document.createElement('div'));
+      }
       body.appendChild(fingerprint_swf_param);
       fingerprint_script = document.createElement('script');
       fingerprint_script.type = 'text/javascript';
@@ -216,7 +218,8 @@
               url: base_url + params.url,
               type: 'POST',
               dataType: 'json',
-              data: params.data,
+              data: JSON.stringify(params.data),
+              contentType: 'application/json',
               headers: {
                 'RaiseHtmlError': false,
                 'Accept': 'application/vnd.conekta-v0.2.0+json',
@@ -261,13 +264,13 @@
   var parse_form;
 
   parse_form = function(charge_form) {
-    var attribute, attribute_name, attributes, charge, input, inputs, last_attribute, node, parent_node, textareas, val, _i, _j, _len, _len1;
+    var attribute, attribute_name, attributes, charge, input, inputs, key, last_attribute, line_items, node, parent_node, textareas, val, _i, _j, _k, _len, _len1, _len2, _ref;
     charge = {};
     if (typeof charge_form === 'object') {
       if (typeof jQuery !== 'undefined' && charge_form instanceof jQuery) {
         charge_form = charge_form.get()[0];
       }
-      if (charge_form instanceof HTMLElement) {
+      if (charge_form.nodeType) {
         textareas = Array.prototype.slice.call(charge_form.getElementsByTagName('textarea'));
         inputs = Array.prototype.slice.call(charge_form.getElementsByTagName('input')).concat(textareas);
         for (_i = 0, _len = inputs.length; _i < _len; _i++) {
@@ -293,6 +296,15 @@
         }
       } else {
         charge = charge_form;
+      }
+      if (charge.details && charge.details.line_items && Object.prototype.toString.call(charge.details.line_items) !== '[object Array]' && typeof charge.details.line_items === 'object') {
+        line_items = [];
+        _ref = charge.details.line_items;
+        for (_k = 0, _len2 = _ref.length; _k < _len2; _k++) {
+          key = _ref[_k];
+          line_items.push(charge.details.line_items[key]);
+        }
+        charge.details.line_items = line_items;
       }
     }
     return charge;

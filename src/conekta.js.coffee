@@ -7,7 +7,7 @@ for i in [0..30]
   session_id += useable_characters.charAt(Math.floor(Math.random() * 36))
 
 fingerprint = ->
-  if typeof document != 'undefined' and typeof document.body != 'undefined' and document.body and typeof HTMLElement != 'undefined' and (document.readyState == 'interactive' or document.readyState == 'complete')
+  if typeof document != 'undefined' and typeof document.body != 'undefined' and document.body and (document.readyState == 'interactive' or document.readyState == 'complete')
     body = document.getElementsByTagName('body')[0]
 
     #fingerprinting png
@@ -35,7 +35,8 @@ fingerprint = ->
     fingerprint_swf_param.name = 'movie'
     fingerprint_swf_param.setAttribute('style', 'display:none ! important;')
     fingerprint_swf_param.value = 'https://h.online-metrix.net/fp/fp.swf?org_id=k8vif92e&session_id=merchant' + session_id
-    fingerprint_swf_param.appendChild(document.createElement('div'))
+    if typeof fingerprint_swf_param.appendChild == 'function'
+      fingerprint_swf_param.appendChild(document.createElement('div'))
     body.appendChild(fingerprint_swf_param)
 
     #fingerprinting script
@@ -201,7 +202,8 @@ window.Conekta =
             url: base_url + params.url
             type: 'POST'
             dataType: 'json'
-            data: params.data
+            data: JSON.stringify(params.data)
+            contentType:'application/json'
             headers:
               'RaiseHtmlError': false
               'Accept': 'application/vnd.conekta-v0.2.0+json'
