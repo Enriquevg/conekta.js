@@ -631,7 +631,7 @@ module.exports = function(val){
           attribute_name = input.getAttribute('data-conekta');
           if (attribute_name) {
             val = input.getAttribute('value') || input.innerHTML || input.value;
-            attributes = attribute_name.replace(/\]/, '').replace(/\-/, '_').split(/\[/);
+            attributes = attribute_name.replace(/\]/g, '').replace(/\-/g, '_').split(/\[/);
             parent_node = null;
             node = charge;
             last_attribute = null;
