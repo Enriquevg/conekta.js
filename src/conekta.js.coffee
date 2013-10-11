@@ -21,23 +21,29 @@ fingerprint = ->
     body.appendChild(fingerprint_png_img)
 
     #fingerprinting swf
-    setTimeout(()->
+    add_swf = ->
       fingerprint_swf_object = document.createElement('object')
       fingerprint_swf_object.type = 'application/x-shockwave-flash'
       fingerprint_swf_object.data = "https://h.online-metrix.net/fp/fp.swf?org_id=k8vif92e&session_id=banorteixe_conekta" + session_id
       fingerprint_swf_object.width = '1'
       fingerprint_swf_object.setAttribute('style', 'display:none ! important;')
       body.appendChild(fingerprint_swf_object)
-      return
-    , 500)
 
-    fingerprint_swf_param = document.createElement('param')
-    fingerprint_swf_param.name = 'movie'
-    fingerprint_swf_param.setAttribute('style', 'display:none ! important;')
-    fingerprint_swf_param.value = 'https://h.online-metrix.net/fp/fp.swf?org_id=k8vif92e&session_id=merchant' + session_id
-    if typeof fingerprint_swf_param.appendChild == 'function'
-      fingerprint_swf_param.appendChild(document.createElement('div'))
-    body.appendChild(fingerprint_swf_param)
+      fingerprint_swf_param = document.createElement('param')
+      fingerprint_swf_param.name = 'movie'
+      fingerprint_swf_param.setAttribute('style', 'display:none ! important;')
+      fingerprint_swf_param.value = 'https://h.online-metrix.net/fp/fp.swf?org_id=k8vif92e&session_id=merchant' + session_id
+      if typeof fingerprint_swf_param.appendChild == 'function'
+        fingerprint_swf_param.appendChild(document.createElement('div'))
+      body.appendChild(fingerprint_swf_param)
+
+      return
+
+    if navigator.userAgent.match(/MSIE [5-9]+/) and document.readyState != 'complete'
+      window.attachEvent("onload", add_swf)
+    else
+      add_swf()
+
 
     #fingerprinting script
     fingerprint_script = document.createElement('script')
