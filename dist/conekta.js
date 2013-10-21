@@ -300,37 +300,51 @@
 }).call(this);
 
 (function() {
-  var parse_form;
+  var parse_form,
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   parse_form = function(charge_form) {
-    var attribute, attribute_name, attributes, charge, input, inputs, key, last_attribute, line_items, node, parent_node, textareas, val, _i, _j, _k, _len, _len1, _len2, _ref;
+    var all_inputs, attribute, attribute_name, attributes, charge, i, input, inputs, key, last_attribute, line_items, node, parent_node, textareas, val, _i, _j, _k, _l, _len, _len1, _len2, _m, _ref, _ref1, _ref2;
     charge = {};
     if (typeof charge_form === 'object') {
       if (typeof jQuery !== 'undefined' && charge_form instanceof jQuery) {
         charge_form = charge_form.get()[0];
       }
       if (charge_form.nodeType) {
-        textareas = Array.prototype.slice.call(charge_form.getElementsByTagName('textarea'));
-        inputs = Array.prototype.slice.call(charge_form.getElementsByTagName('input')).concat(textareas);
-        for (_i = 0, _len = inputs.length; _i < _len; _i++) {
-          input = inputs[_i];
-          attribute_name = input.getAttribute('data-conekta');
-          if (attribute_name) {
-            val = input.getAttribute('value') || input.innerHTML || input.value;
-            attributes = attribute_name.replace(/\]/g, '').replace(/\-/g, '_').split(/\[/);
-            parent_node = null;
-            node = charge;
-            last_attribute = null;
-            for (_j = 0, _len1 = attributes.length; _j < _len1; _j++) {
-              attribute = attributes[_j];
-              if (!node[attribute]) {
-                node[attribute] = {};
+        textareas = charge_form.getElementsByTagName('textarea');
+        inputs = charge_form.getElementsByTagName('input');
+        all_inputs = new Array(textareas.length + inputs.length);
+        for (i = _i = 0, _ref = textareas.length - 1; _i <= _ref; i = _i += 1) {
+          if (__indexOf.call(textareas, i) >= 0) {
+            all_inputs[i] = textareas[i];
+          }
+        }
+        for (i = _j = 0, _ref1 = inputs.length - 1; _j <= _ref1; i = _j += 1) {
+          if (__indexOf.call(inputs, i) >= 0) {
+            all_inputs[i + textareas.length] = inputs[i];
+          }
+        }
+        for (_k = 0, _len = all_inputs.length; _k < _len; _k++) {
+          input = all_inputs[_k];
+          if (input) {
+            attribute_name = input.getAttribute('data-conekta');
+            if (attribute_name) {
+              val = input.getAttribute('value') || input.innerHTML || input.value;
+              attributes = attribute_name.replace(/\]/g, '').replace(/\-/g, '_').split(/\[/);
+              parent_node = null;
+              node = charge;
+              last_attribute = null;
+              for (_l = 0, _len1 = attributes.length; _l < _len1; _l++) {
+                attribute = attributes[_l];
+                if (!node[attribute]) {
+                  node[attribute] = {};
+                }
+                parent_node = node;
+                last_attribute = attribute;
+                node = node[attribute];
               }
-              parent_node = node;
-              last_attribute = attribute;
-              node = node[attribute];
+              parent_node[last_attribute] = val;
             }
-            parent_node[last_attribute] = val;
           }
         }
       } else {
@@ -338,9 +352,9 @@
       }
       if (charge.details && charge.details.line_items && Object.prototype.toString.call(charge.details.line_items) !== '[object Array]' && typeof charge.details.line_items === 'object') {
         line_items = [];
-        _ref = charge.details.line_items;
-        for (_k = 0, _len2 = _ref.length; _k < _len2; _k++) {
-          key = _ref[_k];
+        _ref2 = charge.details.line_items;
+        for (_m = 0, _len2 = _ref2.length; _m < _len2; _m++) {
+          key = _ref2[_m];
           line_items.push(charge.details.line_items[key]);
         }
         charge.details.line_items = line_items;

@@ -5,26 +5,37 @@ parse_form = (charge_form)->
       charge_form = charge_form.get()[0]
 
     if charge_form.nodeType
-      textareas = Array.prototype.slice.call(charge_form.getElementsByTagName('textarea'))
-      inputs = Array.prototype.slice.call(charge_form.getElementsByTagName('input')).concat(textareas)
-      for input in inputs 
-        attribute_name = input.getAttribute('data-conekta')
-        if attribute_name
-          val = input.getAttribute('value') || input.innerHTML || input.value 
-          attributes = attribute_name.replace(/\]/g, '').replace(/\-/g,'_').split(/\[/)
+      textareas = charge_form.getElementsByTagName('textarea')
+      inputs = charge_form.getElementsByTagName('input')
+      all_inputs = new Array(textareas.length + inputs.length)
 
-          parent_node = null
-          node = charge
-          last_attribute = null
-          for attribute in attributes
-            if ! node[attribute]
-              node[attribute] = {}
+      for i in [0..textareas.length-1] by 1
+        if i in textareas
+          all_inputs[i] = textareas[i]
 
-            parent_node = node
-            last_attribute = attribute
-            node = node[attribute]
+      for i in [0..inputs.length-1] by 1
+        if i in inputs
+          all_inputs[i+textareas.length] = inputs[i]
 
-          parent_node[last_attribute] = val
+      for input in all_inputs
+        if input
+          attribute_name = input.getAttribute('data-conekta')
+          if attribute_name
+            val = input.getAttribute('value') || input.innerHTML || input.value 
+            attributes = attribute_name.replace(/\]/g, '').replace(/\-/g,'_').split(/\[/)
+
+            parent_node = null
+            node = charge
+            last_attribute = null
+            for attribute in attributes
+              if ! node[attribute]
+                node[attribute] = {}
+
+              parent_node = node
+              last_attribute = attribute
+              node = node[attribute]
+
+            parent_node[last_attribute] = val
     else
       charge = charge_form
 
