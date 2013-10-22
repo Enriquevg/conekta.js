@@ -10,12 +10,10 @@ parse_form = (charge_form)->
       all_inputs = new Array(textareas.length + inputs.length)
 
       for i in [0..textareas.length-1] by 1
-        if i in textareas
-          all_inputs[i] = textareas[i]
+        all_inputs[i] = textareas[i]
 
       for i in [0..inputs.length-1] by 1
-        if i in inputs
-          all_inputs[i+textareas.length] = inputs[i]
+        all_inputs[i+textareas.length] = inputs[i]
 
       for input in all_inputs
         if input

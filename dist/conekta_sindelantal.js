@@ -300,8 +300,7 @@
 }).call(this);
 
 (function() {
-  var parse_form,
-    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+  var parse_form;
 
   parse_form = function(charge_form) {
     var all_inputs, attribute, attribute_name, attributes, charge, i, input, inputs, key, last_attribute, line_items, node, parent_node, textareas, val, _i, _j, _k, _l, _len, _len1, _len2, _m, _ref, _ref1, _ref2;
@@ -315,14 +314,10 @@
         inputs = charge_form.getElementsByTagName('input');
         all_inputs = new Array(textareas.length + inputs.length);
         for (i = _i = 0, _ref = textareas.length - 1; _i <= _ref; i = _i += 1) {
-          if (__indexOf.call(textareas, i) >= 0) {
-            all_inputs[i] = textareas[i];
-          }
+          all_inputs[i] = textareas[i];
         }
         for (i = _j = 0, _ref1 = inputs.length - 1; _j <= _ref1; i = _j += 1) {
-          if (__indexOf.call(inputs, i) >= 0) {
-            all_inputs[i + textareas.length] = inputs[i];
-          }
+          all_inputs[i + textareas.length] = inputs[i];
         }
         for (_k = 0, _len = all_inputs.length; _k < _len; _k++) {
           input = all_inputs[_k];
