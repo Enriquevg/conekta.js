@@ -3519,7 +3519,7 @@ module.exports = function(val){
   var parse_form;
 
   parse_form = function(charge_form) {
-    var all_inputs, attribute, attribute_name, attributes, charge, i, input, inputs, key, last_attribute, line_items, node, parent_node, textareas, val, _i, _j, _k, _l, _len, _len1, _len2, _m, _ref, _ref1, _ref2;
+    var all_inputs, attribute, attribute_name, attributes, charge, i, input, inputs, key, last_attribute, line_items, node, parent_node, textareas, val, _i, _j, _k, _l, _len, _len1, _ref, _ref1;
     charge = {};
     if (typeof charge_form === 'object') {
       if (typeof jQuery !== 'undefined' && charge_form instanceof jQuery) {
@@ -3563,9 +3563,7 @@ module.exports = function(val){
       }
       if (charge.details && charge.details.line_items && Object.prototype.toString.call(charge.details.line_items) !== '[object Array]' && typeof charge.details.line_items === 'object') {
         line_items = [];
-        _ref2 = charge.details.line_items;
-        for (_m = 0, _len2 = _ref2.length; _m < _len2; _m++) {
-          key = _ref2[_m];
+        for (key in charge.details.line_items) {
           line_items.push(charge.details.line_items[key]);
         }
         charge.details.line_items = line_items;

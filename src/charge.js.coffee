@@ -39,7 +39,7 @@ parse_form = (charge_form)->
 
     if charge.details && charge.details.line_items && Object.prototype.toString.call( charge.details.line_items ) != '[object Array]' && typeof charge.details.line_items == 'object'
       line_items = []
-      for key in charge.details.line_items
+      for key of charge.details.line_items
         line_items.push(charge.details.line_items[key])
       charge.details.line_items = line_items
 
